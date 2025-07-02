@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanium v2.0 - Advanced Testing</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f8f9fa; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .section { background: white; margin: 20px 0; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .test-item { margin: 15px 0; padding: 15px; background: #e8f4f8; border-radius: 5px; cursor: pointer; }
+        .highlight { background: yellow; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1> Explanium v2.0 - Advanced AI Testing</h1>
+        <p>Test the new advanced capabilities: Paragraph Analysis, Concept Extraction, and Detailed Explanations</p>
+    </div>
+
+    <div class="section">
+        <h2> Instructions</h2>
+        <p><strong>Select any text below</strong> to see the advanced AI analysis!</p>
+        <ul>
+            <li> Short phrases get focused explanations</li>
+            <li> Medium passages get detailed analysis</li>
+            <li> Long paragraphs get comprehensive summaries + concept extraction</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2> Test Single Terms</h2>
+        <div class="test-item">Try: <span class="highlight">artificial intelligence</span></div>
+        <div class="test-item">Try: <span class="highlight">machine learning</span></div>
+        <div class="test-item">Try: <span class="highlight">economics</span></div>
+        <div class="test-item">Try: <span class="highlight">blockchain</span></div>
+        <div class="test-item">Try: <span class="highlight">sustainability</span></div>
+    </div>
+
+    <div class="section">
+        <h2> Test Medium Passages</h2>
+        <div class="test-item">
+            Research methodology encompasses the systematic approach researchers use to conduct studies and gather evidence. This includes defining research questions, selecting appropriate data collection methods, ensuring validity and reliability, and analyzing results within established theoretical frameworks.
+        </div>
+        <div class="test-item">
+            Digital transformation initiatives require organizations to fundamentally rethink their business models, operational processes, and customer engagement strategies. This involves leveraging emerging technologies like artificial intelligence, cloud computing, and data analytics to create new value propositions.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2> Test Long Paragraphs</h2>
+        <div class="test-item">
+            The epistemological foundations of scientific inquiry rest upon the assumption that empirical observation, when conducted through rigorous methodology and subjected to peer review, can yield reliable knowledge about the natural world. This paradigm, known as logical positivism, has dominated scientific practice since the Enlightenment, emphasizing the importance of hypothesis testing, quantitative measurement, and statistical analysis. However, contemporary philosophers of science have challenged this framework, arguing that scientific knowledge is inevitably shaped by cultural, historical, and theoretical contexts that influence both the questions researchers ask and the interpretations they derive from their findings.
+        </div>
+        <div class="test-item">
+            Economics, as a behavioral science, studies the production, distribution, and consumption of goods and services. This field encompasses both microeconomics, which examines individual and firm-level decision-making, and macroeconomics, which analyzes economy-wide phenomena such as inflation, unemployment, and economic growth. Modern economic theory integrates insights from psychology, sociology, and political science to better understand how individuals and institutions make choices under conditions of scarcity. Behavioral economics, in particular, has challenged traditional assumptions about rational decision-making by incorporating cognitive biases, social influences, and emotional factors into economic models.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2> Test Pattern Recognition</h2>
+        <div class="test-item">Try: <span class="highlight">95%</span> (percentage)</div>
+        <div class="test-item">Try: <span class="highlight">API</span> (acronym)</div>
+        <div class="test-item">Try: <span class="highlight">https://example.com</span> (URL)</div>
+        <div class="test-item">Try: <span class="highlight">user@example.com</span> (email)</div>
+    </div>
+
+    <script>
+        console.log(' Explanium v2.0 Testing Page Ready!');
+        document.querySelectorAll('.test-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const range = document.createRange();
+                range.selectNodeContents(item);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Explanium - Instant Text Explainer",
+  "version": "2.0.0",
+  "description": "Advanced AI text analysis with paragraph processing, concept extraction, and detailed explanations",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "downloads",
+    "offscreen"
+  ],
+  
+  "host_permissions": [
+    "https://huggingface.co/*",
+    "https://cdn.jsdelivr.net/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html", "popup.css", "popup.js", "models/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "action": {
+    "default_popup": "options.html",
+    "default_title": "Explanium Settings"
+  }
+} 

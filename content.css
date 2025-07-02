@@ -1,0 +1,279 @@
+/* Explanium Popup Styles */
+.explanium-popup {
+  position: absolute;
+  z-index: 10000;
+  width: 450px;
+  max-width: 95vw;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  animation: explanium-fadeIn 0.2s ease-out;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+@keyframes explanium-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.explanium-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.explanium-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 13px;
+}
+
+.explanium-title.explanium-error {
+  color: #dc3545;
+}
+
+.explanium-icon {
+  font-size: 16px;
+}
+
+.explanium-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 13px;
+}
+
+.explanium-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #e0e0e0;
+  border-top: 2px solid #4285f4;
+  border-radius: 50%;
+  animation: explanium-spin 1s linear infinite;
+}
+
+@keyframes explanium-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.explanium-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.explanium-close:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.explanium-content {
+  padding: 16px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.explanium-selected-text {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-style: italic;
+  color: #495057;
+  font-size: 13px;
+  margin-bottom: 12px;
+  word-wrap: break-word;
+}
+
+.explanium-explanation {
+  color: #333;
+  line-height: 1.5;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+/* Enhanced formatting for structured explanations */
+.explanium-explanation strong {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.explanium-explanation em {
+  font-style: italic;
+  color: #7c3aed;
+}
+
+/* Section headers with emojis */
+.explanium-explanation h3,
+.explanium-explanation h4 {
+  margin: 12px 0 6px 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+/* Lists and bullet points */
+.explanium-explanation ul {
+  margin: 8px 0;
+  padding-left: 16px;
+}
+
+.explanium-explanation li {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.explanium-explanation p {
+  margin: 0 0 8px 0;
+}
+
+.explanium-explanation p:last-child {
+  margin-bottom: 0;
+}
+
+/* Special styling for analysis sections */
+.explanium-explanation [style*="font-style: italic"] {
+  background: #f8fafc;
+  border-left: 3px solid #e2e8f0;
+  padding: 8px 12px;
+  margin: 8px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.explanium-error-message {
+  color: #dc3545;
+  font-size: 13px;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+/* Scrollbar styling */
+.explanium-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.explanium-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.explanium-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.explanium-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .explanium-popup {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #e0e0e0;
+  }
+  
+  .explanium-header {
+    background: #383838;
+    border-bottom-color: #404040;
+  }
+  
+  .explanium-title {
+    color: #e0e0e0;
+  }
+  
+  .explanium-selected-text {
+    background: #404040;
+    border-color: #505050;
+    color: #b0b0b0;
+  }
+  
+  .explanium-explanation {
+    color: #e0e0e0;
+  }
+  
+  .explanium-close {
+    color: #b0b0b0;
+  }
+  
+  .explanium-close:hover {
+    background: #404040;
+    color: #e0e0e0;
+  }
+  
+  .explanium-content::-webkit-scrollbar-track {
+    background: #404040;
+  }
+  
+  .explanium-content::-webkit-scrollbar-thumb {
+    background: #606060;
+  }
+  
+  .explanium-content::-webkit-scrollbar-thumb:hover {
+    background: #707070;
+  }
+  
+  /* Dark mode for enhanced formatting */
+  .explanium-explanation strong {
+    color: #60a5fa;
+  }
+  
+  .explanium-explanation em {
+    color: #a78bfa;
+  }
+  
+  .explanium-explanation h3,
+  .explanium-explanation h4 {
+    color: #f3f4f6;
+  }
+  
+  .explanium-explanation [style*="font-style: italic"] {
+    background: #374151;
+    border-left-color: #4b5563;
+    color: #9ca3af;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .explanium-popup {
+    width: calc(100vw - 20px);
+    max-width: none;
+    left: 10px !important;
+    right: 10px;
+  }
+} 

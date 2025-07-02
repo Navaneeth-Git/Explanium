@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explanium - Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+      width: 400px;
+      min-height: 500px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .logo {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+    
+    h1 {
+      margin: 0;
+      color: #333;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .version {
+      color: #666;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    
+    .section {
+      margin-bottom: 24px;
+    }
+    
+    .section h2 {
+      color: #333;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .setting:last-child {
+      border-bottom: none;
+    }
+    
+    .setting-label {
+      font-size: 14px;
+      color: #333;
+    }
+    
+    .setting-description {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2px;
+    }
+    
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: #ddd;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .toggle.active {
+      background: #4285f4;
+    }
+    
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    
+    .toggle.active::after {
+      transform: translateX(20px);
+    }
+    
+    .info {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 24px;
+    }
+    
+    .info h3 {
+      margin: 0 0 8px 0;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .info p {
+      margin: 0 0 8px 0;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    .info p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .status {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-block;
+      margin-top: 8px;
+    }
+    
+    .status.active {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .status.inactive {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f1b2b8;
+    }
+    
+    .model-section {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 16px;
+    }
+    
+    .model-section:last-child {
+      border-bottom: none;
+    }
+    
+    .model-section h3 {
+      margin: 0 0 8px 0;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .action-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-right: 8px;
+    }
+    
+    .action-btn.primary {
+      background: #4285f4;
+      color: white;
+    }
+    
+    .action-btn.primary:hover {
+      background: #3367d6;
+    }
+    
+    .action-btn.primary:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .action-btn.danger {
+      background: #dc3545;
+      color: white;
+    }
+    
+    .action-btn.danger:hover {
+      background: #c82333;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: #4285f4;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    
+    .progress-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">💡</div>
+      <h1>Explanium</h1>
+      <div class="version">Version 2.0.0</div>
+    </div>
+    
+    <div class="section">
+      <h2>Settings</h2>
+      
+      <div class="setting">
+        <div>
+          <div class="setting-label">Enable Extension</div>
+          <div class="setting-description">Turn on/off text explanations</div>
+        </div>
+        <div class="toggle active" id="enableToggle"></div>
+      </div>
+      
+      <div class="setting">
+        <div>
+          <div class="setting-label">Auto-explain</div>
+          <div class="setting-description">Show explanations automatically on text selection</div>
+        </div>
+        <div class="toggle active" id="autoExplainToggle"></div>
+      </div>
+      
+      <div class="setting">
+        <div>
+          <div class="setting-label">Show on Long Text</div>
+          <div class="setting-description">Explain text selections longer than 200 characters (now supports up to 5000 chars)</div>
+        </div>
+        <div class="toggle" id="longTextToggle"></div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>AI Models</h2>
+      
+      <div class="model-section">
+        <h3>🚀 Advanced AI Model v2.0</h3>
+        <div id="customModelStatus">
+          <span class="status inactive">Checking...</span>
+        </div>
+        <div style="font-size: 12px; color: #666; margin-top: 4px; margin-bottom: 8px;">
+          <strong>Advanced Capabilities:</strong><br>
+          📄 Paragraph Analysis (up to 5000 chars) • 🔑 Concept Extraction<br>
+          📋 Contextual Understanding • 💡 Multi-level Explanations<br>
+          📊 Text Summarization • 🎯 Pattern Recognition • 🧠 Domain Knowledge
+        </div>
+        <div class="model-actions" style="margin-top: 12px;">
+          <button id="downloadModelBtn" class="action-btn primary" style="display: none;">
+            Activate Advanced AI Model v2.0
+          </button>
+          <button id="deleteModelBtn" class="action-btn danger" style="display: none;">
+            Delete Model
+          </button>
+          <div id="downloadProgress" style="display: none; margin-top: 8px;">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Activating... 0%</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="model-section">
+        <h3>Chrome Built-in AI</h3>
+        <div id="chromeAiStatus">
+          <span class="status inactive">Checking...</span>
+        </div>
+      </div>
+      
+      <div class="model-section">
+        <h3>Fallback Dictionary</h3>
+        <div>
+          <span class="status active">Always Available</span>
+          <div style="font-size: 12px; color: #666; margin-top: 4px;">
+            Built-in explanations for common terms
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="info">
+      <h3>How to Use</h3>
+      <p>1. Select any text on a webpage by highlighting it with your mouse</p>
+      <p>2. A popup will appear automatically with an explanation</p>
+      <p>3. Click the × button or click outside to close the explanation</p>
+      
+      <h3 style="margin-top: 16px;">Advanced Features v2.0</h3>
+      <p>• 🚀 Advanced paragraph analysis (up to 5000 characters)</p>
+      <p>• 🔑 Intelligent concept extraction and summarization</p>
+      <p>• 📋 Context-aware explanations across multiple domains</p>
+      <p>• 💡 Multi-level detailed explanations (phrase → passage → paragraph)</p>
+      <p>• 🎯 Advanced pattern recognition and analysis</p>
+      <p>• ⚡ Instant processing with minimal CPU usage</p>
+      <p>• 🌐 Works on any website with dark mode support</p>
+    </div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html> 

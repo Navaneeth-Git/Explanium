@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanium Extension Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4285f4;
+        }
+        .test-text {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .debug-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Explanium Extension Test Page</h1>
+    
+    <div class="instructions">
+        <h3>How to test:</h3>
+        <ol>
+            <li>Make sure the Explanium extension is loaded and enabled</li>
+            <li>Try selecting the text samples below</li>
+            <li>A popup should appear with explanations</li>
+            <li>Check the browser console (F12) for any errors</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h3>📱 Simple Terms (Test these first)</h3>
+        
+        <div class="test-text">
+            Select this word: <strong>API</strong>
+        </div>
+        
+        <div class="test-text">
+            Try this term: <strong>algorithm</strong>
+        </div>
+        
+        <div class="test-text">
+            Test this acronym: <strong>CEO</strong>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔬 Technical Terms</h3>
+        
+        <div class="test-text">
+            This should work: <strong>machine learning</strong>
+        </div>
+        
+        <div class="test-text">
+            Try selecting: <strong>database</strong>
+        </div>
+        
+        <div class="test-text">
+            Test this phrase: <strong>neural network</strong>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>💼 Business Terms</h3>
+        
+        <div class="test-text">
+            Select this: <strong>stakeholder</strong>
+        </div>
+        
+        <div class="test-text">
+            Try this: <strong>ROI</strong>
+        </div>
+        
+        <div class="test-text">
+            Test this: <strong>scalability</strong>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔢 Pattern Tests</h3>
+        
+        <div class="test-text">
+            Select this percentage: <strong>25%</strong>
+        </div>
+        
+        <div class="test-text">
+            Try this email: <strong>test@example.com</strong>
+        </div>
+        
+        <div class="test-text">
+            Test this URL: <strong>https://example.com</strong>
+        </div>
+    </div>
+
+    <div class="debug-info">
+        <h4>🐛 Debug Information:</h4>
+        <p>If nothing happens when you select text:</p>
+        <ul>
+            <li>Open Developer Tools (F12)</li>
+            <li>Check the Console tab for errors</li>
+            <li>Look for messages starting with "Explanium"</li>
+            <li>Check if content script is loaded</li>
+        </ul>
+        
+        <p>Common issues:</p>
+        <ul>
+            <li>Extension not enabled in chrome://extensions/</li>
+            <li>Page needs to be refreshed after installing extension</li>
+            <li>Settings might be disabled in extension popup</li>
+            <li>JavaScript errors blocking execution</li>
+        </ul>
+    </div>
+
+    <script>
+        // Debug script to help identify issues
+        console.log('🧪 Explanium Test Page Loaded');
+        
+        // Check if extension content script is loaded
+        setTimeout(() => {
+            if (window.explanium || document.querySelector('.explanium-popup')) {
+                console.log('✅ Explanium extension detected');
+            } else {
+                console.log('❌ Explanium extension not detected');
+                console.log('💡 Try refreshing the page or checking extension status');
+            }
+        }, 1000);
+        
+        // Log text selections for debugging
+        document.addEventListener('mouseup', () => {
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+            if (selectedText) {
+                console.log('📝 Text selected:', selectedText);
+                console.log('📝 Selection length:', selectedText.length);
+            }
+        });
+    </script>
+</body>
+</html> 
