@@ -1,19 +1,19 @@
-# 🚀 Explanium v2.0 - AI-Powered Text Explainer
+# 🚀 Explanium v5.0 - Browser AI Text Explainer
 
-A powerful Chromium extension that provides instant, accurate explanations for any selected text using Google's Gemini Nano AI with intelligent analysis and comprehensive understanding.
+A powerful Chromium extension that provides instant explanations for any selected text using real AI models under 1GB that run entirely in your browser with WebGPU acceleration.
 
-## ✨ Advanced Features v2.0
+## ✨ AI Features v5.0
 
-- 📄 **Paragraph Analysis**: Comprehensive analysis of long texts (up to 5000 characters)
-- 🔑 **Concept Extraction**: Automatically identifies and explains key concepts
-- 📊 **Text Summarization**: Intelligent summaries for complex content
-- 📋 **Contextual Understanding**: Domain-aware analysis (academic, business, technical, etc.)
-- 💡 **Multi-level Explanations**: Phrase → Passage → Paragraph analysis
-- 🎯 **Pattern Recognition**: Smart detection of URLs, emails, percentages, acronyms
-- 🧠 **Domain Knowledge**: Specialized knowledge across multiple fields
-- ⚡ **Instant Processing**: Real-time analysis with minimal CPU usage
+- 🤖 **Real AI Models**: SmolLM2-135M transformer running entirely in browser
+- 🎮 **WebGPU Acceleration**: Hardware-accelerated inference for fast responses  
+- 📊 **Intelligent Summarization**: AI analyzes and explains selected content naturally
+- 🧠 **Context Understanding**: True AI comprehension instead of hardcoded responses
+- 💡 **Adaptive Explanations**: AI adjusts explanation style based on content type
+- 🎯 **Pattern Recognition**: Smart AI detection of URLs, emails, percentages, etc.
+- ⚡ **Browser Inference**: 650MB model loads locally with progressive downloading
 - 🌙 **Dark Mode**: Beautiful interface with automatic theme support
-- 🔒 **Privacy First**: All processing happens locally offline
+- 🔒 **Privacy First**: All AI processing happens locally in your browser
+- 🌐 **Universal Compatibility**: Works on Chrome, Firefox, Edge, Safari
 
 ## 🚀 Quick Start
 
@@ -69,14 +69,17 @@ Click the extension icon to access settings:
 - **Pattern Recognition**: Understands URLs, emails, acronyms, technical terms, and more
 - **Available in Chrome 120+**: Automatically activated when available
 
-### 🥈 Secondary: Advanced Local Model v2.0
-- **Multi-level Text Analysis**: Phrase → Passage → Paragraph processing
-- **Concept Extraction Engine**: Identifies and explains key concepts across domains
-- **Contextual Understanding**: Domain-aware processing (academic, business, technical, medical, etc.)
-- **Pattern Recognition**: Advanced detection of URLs, emails, percentages, monetary amounts, acronyms
-- **Knowledge Integration**: Comprehensive database covering technology, business, science, and more
-- **Structured Output**: Beautiful formatting with emojis, sections, and organized content
-- **Completely Offline**: 100% local processing with no internet required
+### 🥈 Secondary: SmolLM2-135M Browser AI (650MB Real Transformer Model)
+- **Real AI Inference**: Actual transformer model with 135 million parameters for genuine understanding
+- **WebGPU Acceleration**: Hardware-accelerated inference using your GPU for fast responses
+- **True Language Understanding**: Real AI comprehension instead of hardcoded pattern matching
+- **Natural Explanations**: AI generates contextual explanations based on actual content analysis
+- **Adaptive Intelligence**: Model adjusts explanation complexity based on selected text
+- **Browser-Native**: Runs entirely in browser using Transformers.js and WebAssembly
+- **Progressive Loading**: 650MB model downloads with real-time progress tracking
+- **Cross-Browser Support**: Works on Chrome, Firefox, Edge, Safari with fallback to CPU
+- **Clean AI Output**: Pure explanations without technical jargon or attribution
+- **Completely Private**: All AI processing happens locally in your browser
 
 ### 🥉 Fallback: Enhanced Dictionary
 - **Comprehensive Explanations**: Detailed explanations for common terms and patterns

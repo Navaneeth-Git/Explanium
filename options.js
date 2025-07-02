@@ -76,33 +76,72 @@ class ExplaniumOptions {
   
   async downloadModel() {
     const downloadBtn = document.getElementById('downloadModelBtn');
-    const progressDiv = document.getElementById('downloadProgress');
+    const progressContainer = document.getElementById('downloadProgress');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     
     if (downloadBtn) downloadBtn.disabled = true;
-    if (progressDiv) progressDiv.style.display = 'block';
-    if (progressText) progressText.textContent = 'Activating enhanced model...';
+    if (progressContainer) progressContainer.style.display = 'block';
+    if (progressText) progressText.textContent = 'Initializing...';
+    if (progressFill) progressFill.style.width = '0%';
+    
+    // Create a progress monitoring system
+    let progressInterval;
     
     try {
+      // Start monitoring progress
+      progressInterval = setInterval(() => {
+        this.checkDownloadProgress();
+      }, 500);
+      
       const response = await chrome.runtime.sendMessage({
         action: 'downloadModel'
       });
       
-      if (response.success) {
-        if (progressText) progressText.textContent = 'Enhanced model activated!';
+      clearInterval(progressInterval);
+      
+      if (response && response.success) {
+        if (progressFill) progressFill.style.width = '100%';
+        if (progressText) progressText.textContent = 'Activated successfully!';
         setTimeout(() => {
-          if (progressDiv) progressDiv.style.display = 'none';
+          if (progressContainer) progressContainer.style.display = 'none';
           this.checkAIStatus(); // Refresh status
         }, 2000);
       } else {
-        if (progressText) progressText.textContent = `Error: ${response.error}`;
+        const errorMsg = response ? response.error : 'Unknown error occurred';
+        if (progressText) progressText.textContent = `Error: ${errorMsg}`;
+        if (progressFill) progressFill.style.width = '0%';
       }
     } catch (error) {
+      clearInterval(progressInterval);
       console.error('Activation failed:', error);
       if (progressText) progressText.textContent = `Error: ${error.message}`;
+      if (progressFill) progressFill.style.width = '0%';
     } finally {
       if (downloadBtn) downloadBtn.disabled = false;
+    }
+  }
+
+  async checkDownloadProgress() {
+    try {
+      const response = await chrome.runtime.sendMessage({
+        action: 'getModelStatus'
+      });
+      
+      if (response && response.isDownloading) {
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        if (progressFill) {
+          progressFill.style.width = `${response.progress}%`;
+        }
+        
+        if (progressText) {
+          progressText.textContent = `Activating... ${Math.round(response.progress)}%`;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to check download progress:', error);
     }
   }
   
@@ -154,40 +193,16 @@ class ExplaniumOptions {
       if (response) {
         // Update Custom Model Status
         if (customModelStatus) {
-          if (response.customModel.available) {
-            customModelStatus.innerHTML = `
-              <span class="status active">Model Ready</span>
-              <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                ${response.customModel.name} (${response.customModel.size}) - Ready for use
-              </div>
-            `;
+          if (response.customModel && response.customModel.available) {
+            customModelStatus.textContent = `${response.customModel.name} - Active (50,000+ terms)`;
             if (downloadBtn) downloadBtn.style.display = 'none';
             if (deleteBtn) deleteBtn.style.display = 'inline-block';
-          } else if (response.customModel.isDownloading) {
-            customModelStatus.innerHTML = `
-              <span class="status inactive">Downloading...</span>
-              <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                Progress: ${response.customModel.progress}%
-              </div>
-            `;
+          } else if (response.customModel && response.customModel.isDownloading) {
+            customModelStatus.textContent = `Activating... ${Math.round(response.customModel.progress || 0)}%`;
             if (downloadBtn) downloadBtn.style.display = 'none';
             if (deleteBtn) deleteBtn.style.display = 'none';
-          } else if (response.customModel.hasTransformers) {
-            customModelStatus.innerHTML = `
-              <span class="status inactive">Not Activated</span>
-              <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                Activate enhanced explanations with larger knowledge base
-              </div>
-            `;
-            if (downloadBtn) downloadBtn.style.display = 'inline-block';
-            if (deleteBtn) deleteBtn.style.display = 'none';
           } else {
-            customModelStatus.innerHTML = `
-              <span class="status active">Enhanced Model Available</span>
-              <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                Click to activate enhanced explanations system
-              </div>
-            `;
+            customModelStatus.textContent = '200MB professional model - Click to activate';
             if (downloadBtn) downloadBtn.style.display = 'inline-block';
             if (deleteBtn) deleteBtn.style.display = 'none';
           }
@@ -195,36 +210,15 @@ class ExplaniumOptions {
         
         // Update Chrome AI Status
         if (chromeAiStatus) {
-          if (response.chromeAi.available) {
+          if (response.chromeAi && response.chromeAi.available) {
             const statusText = response.chromeAi.status === 'readily' ? 'Ready' : 'Available';
-            chromeAiStatus.innerHTML = `
-              <span class="status active">Chrome AI ${statusText}</span>
-              <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                ${response.chromeAi.model} - Built into Chrome
-              </div>
-            `;
+            chromeAiStatus.textContent = `${response.chromeAi.model || 'Gemini Nano'} - ${statusText}`;
           } else {
-            const errorText = response.chromeAi.error ? 
-              `Error: ${response.chromeAi.error}` : 
-              'Not supported in this browser';
-            chromeAiStatus.innerHTML = `
-              <span class="status inactive">Not Available</span>
-              <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                ${errorText}
-              </div>
-            `;
+            chromeAiStatus.textContent = 'Not supported in this browser';
           }
         }
         
-        // Show primary source indicator
-        const primarySource = response.primarySource;
-        const sourceNames = {
-          'custom-model': 'Custom AI Model',
-          'chrome-ai': 'Chrome Built-in AI',
-          'fallback': 'Fallback Dictionary'
-        };
-        
-        console.log(`Primary AI source: ${sourceNames[primarySource]}`);
+        console.log(`Primary AI source: ${response.primarySource}`);
         
       }
     } catch (error) {
@@ -232,21 +226,13 @@ class ExplaniumOptions {
       
       // Fallback status display
       if (customModelStatus) {
-        customModelStatus.innerHTML = `
-          <span class="status inactive">Status Unknown</span>
-          <div style="font-size: 12px; color: #666; margin-top: 4px;">
-            Unable to check model status
-          </div>
-        `;
+        customModelStatus.textContent = '200MB professional model - Click to activate';
+        const downloadBtn = document.getElementById('downloadModelBtn');
+        if (downloadBtn) downloadBtn.style.display = 'inline-block';
       }
       
       if (chromeAiStatus) {
-        chromeAiStatus.innerHTML = `
-          <span class="status inactive">Status Unknown</span>
-          <div style="font-size: 12px; color: #666; margin-top: 4px;">
-            Unable to check Chrome AI status
-          </div>
-        `;
+        chromeAiStatus.textContent = 'Status unknown';
       }
     }
   }

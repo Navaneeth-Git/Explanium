@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Explanium - Instant Text Explainer",
-  "version": "2.0.0",
-  "description": "Get instant, accurate explanations using Google's Gemini Nano AI with intelligent analysis and comprehensive understanding of any text",
+  "version": "5.0.0",
+  "description": "650MB SmolLM2 transformer AI model with WebGPU acceleration. Real AI inference running entirely in your browser. Clean explanations with genuine language understanding.",
   
   "permissions": [
     "activeTab",

@@ -218,7 +218,6 @@ class ExplaniumContentScript {
         </div>
       </div>
       <div class="explanium-content">
-        <div class="explanium-selected-text">"${this.currentSelection.text}"</div>
       </div>
     `;
     
@@ -264,11 +263,15 @@ class ExplaniumContentScript {
           <span class="explanium-icon">💡</span>
           <span>Explanation</span>
         </div>
-        <button class="explanium-close" onclick="window.explanium.hidePopup()">×</button>
+        <div class="explanium-header-buttons">
+          <button class="explanium-copy" onclick="window.explanium.copyExplanation()" title="Copy explanation">
+            <span class="copy-icon">📋</span>
+          </button>
+          <button class="explanium-close" onclick="window.explanium.hidePopup()">×</button>
+        </div>
       </div>
       <div class="explanium-content">
-        <div class="explanium-selected-text">"${this.currentSelection.text}"</div>
-        <div class="explanium-explanation">${explanation}</div>
+        <div class="explanium-explanation" id="explanium-explanation-text">${explanation}</div>
       </div>
     `;
     
@@ -334,10 +337,15 @@ class ExplaniumContentScript {
           <span class="explanium-icon">💡</span>
           <span>Explanation</span>
         </div>
-        <button class="explanium-close" onclick="window.explanium.hidePopup()">×</button>
+        <div class="explanium-header-buttons">
+          <button class="explanium-copy" onclick="window.explanium.copyExplanation()" title="Copy explanation">
+            <span class="copy-icon">📋</span>
+          </button>
+          <button class="explanium-close" onclick="window.explanium.hidePopup()">×</button>
+        </div>
       </div>
       <div class="explanium-content">
-        <div class="explanium-explanation">${explanation}</div>
+        <div class="explanium-explanation" id="explanium-explanation-text">${explanation}</div>
         <div class="explanium-note" style="margin-top: 8px; font-size: 12px; color: #888; font-style: italic;">
           Note: Text selection was lost, showing explanation only.
         </div>
@@ -368,6 +376,71 @@ class ExplaniumContentScript {
       this.popup = null;
     }
     this.currentSelection = null;
+  }
+
+  copyExplanation() {
+    const explanationElement = document.getElementById('explanium-explanation-text');
+    if (!explanationElement) {
+      console.error('❌ No explanation text found to copy');
+      return;
+    }
+
+    const explanationText = explanationElement.textContent || explanationElement.innerText;
+    
+    // Use the Clipboard API if available
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(explanationText).then(() => {
+        this.showCopyConfirmation();
+        console.log('✅ Explanation copied to clipboard using Clipboard API');
+      }).catch(err => {
+        console.error('❌ Failed to copy using Clipboard API:', err);
+        this.fallbackCopy(explanationText);
+      });
+    } else {
+      // Fallback method for older browsers or insecure contexts
+      this.fallbackCopy(explanationText);
+    }
+  }
+
+  fallbackCopy(text) {
+    try {
+      // Create a temporary textarea element
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      
+      textArea.focus();
+      textArea.select();
+      
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      if (successful) {
+        this.showCopyConfirmation();
+        console.log('✅ Explanation copied to clipboard using fallback method');
+      } else {
+        console.error('❌ Fallback copy method failed');
+      }
+    } catch (err) {
+      console.error('❌ Error in fallback copy method:', err);
+    }
+  }
+
+  showCopyConfirmation() {
+    const copyButton = this.popup?.querySelector('.explanium-copy');
+    if (copyButton) {
+      const originalHTML = copyButton.innerHTML;
+      copyButton.innerHTML = '<span class="copy-icon">✅</span>';
+      copyButton.style.color = '#4CAF50';
+      
+      setTimeout(() => {
+        copyButton.innerHTML = originalHTML;
+        copyButton.style.color = '';
+      }, 2000);
+    }
   }
 }
 

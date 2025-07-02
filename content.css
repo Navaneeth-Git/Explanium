@@ -75,6 +75,42 @@
   100% { transform: rotate(360deg); }
 }
 
+.explanium-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.explanium-copy {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.explanium-copy:hover {
+  background: #f0f0f0;
+  color: #4285f4;
+  transform: scale(1.05);
+}
+
+.explanium-copy:active {
+  transform: scale(0.95);
+}
+
+.copy-icon {
+  font-size: 14px;
+}
+
 .explanium-close {
   background: none;
   border: none;
@@ -102,17 +138,7 @@
   overflow-y: auto;
 }
 
-.explanium-selected-text {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-style: italic;
-  color: #495057;
-  font-size: 13px;
-  margin-bottom: 12px;
-  word-wrap: break-word;
-}
+
 
 .explanium-explanation {
   color: #333;
@@ -216,14 +242,19 @@
     color: #e0e0e0;
   }
   
-  .explanium-selected-text {
-    background: #404040;
-    border-color: #505050;
-    color: #b0b0b0;
-  }
+
   
   .explanium-explanation {
     color: #e0e0e0;
+  }
+  
+  .explanium-copy {
+    color: #b0b0b0;
+  }
+  
+  .explanium-copy:hover {
+    background: #404040;
+    color: #4285f4;
   }
   
   .explanium-close {
