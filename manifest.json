@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Explanium - Instant Text Explainer",
   "version": "2.0.0",
-  "description": "Advanced AI text analysis with paragraph processing, concept extraction, and detailed explanations",
+  "description": "Get instant, accurate explanations using Google's Gemini Nano AI with intelligent analysis and comprehensive understanding of any text",
   
   "permissions": [
     "activeTab",

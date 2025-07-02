@@ -1,6 +1,6 @@
-# 🚀 Explanium v2.0 - Advanced Text Analysis Extension
+# 🚀 Explanium v2.0 - AI-Powered Text Explainer
 
-A powerful Chromium extension that provides comprehensive text analysis, detailed explanations, and intelligent insights for any selected text using advanced AI capabilities.
+A powerful Chromium extension that provides instant, accurate explanations for any selected text using Google's Gemini Nano AI with intelligent analysis and comprehensive understanding.
 
 ## ✨ Advanced Features v2.0
 
@@ -58,11 +58,19 @@ Click the extension icon to access settings:
 - **Capabilities Overview**: View all advanced features and processing modes
 - **Progress Tracking**: Visual progress indicator during model activation
 
-## 🤖 Advanced AI Technology Stack
+## 🤖 AI Technology Stack (Priority Order)
 
-### Primary: Advanced AI Model v2.0 🚀
-- **Multi-level Text Analysis**: Automatic detection of text complexity and appropriate response
-- **Paragraph Processing**: Full analysis of long texts with summarization and structure analysis
+### 🥇 Primary: Chrome Built-in AI (Gemini Nano)
+- **Google's Advanced AI**: State-of-the-art language model for maximum accuracy
+- **Intelligent Prompting**: Smart prompts adapted to different text types (words, phrases, paragraphs)
+- **Comprehensive Understanding**: Deep analysis across all domains and contexts
+- **Real-time Processing**: Fast, accurate explanations with natural language understanding
+- **Adaptive Responses**: Automatically adjusts explanation depth based on text complexity
+- **Pattern Recognition**: Understands URLs, emails, acronyms, technical terms, and more
+- **Available in Chrome 120+**: Automatically activated when available
+
+### 🥈 Secondary: Advanced Local Model v2.0
+- **Multi-level Text Analysis**: Phrase → Passage → Paragraph processing
 - **Concept Extraction Engine**: Identifies and explains key concepts across domains
 - **Contextual Understanding**: Domain-aware processing (academic, business, technical, medical, etc.)
 - **Pattern Recognition**: Advanced detection of URLs, emails, percentages, monetary amounts, acronyms
@@ -70,17 +78,11 @@ Click the extension icon to access settings:
 - **Structured Output**: Beautiful formatting with emojis, sections, and organized content
 - **Completely Offline**: 100% local processing with no internet required
 
-### Secondary: Chrome Built-in AI (Gemini Nano)
-- Available in Chrome 120+ with experimental flags enabled
-- Provides additional AI capabilities when available
-- Seamlessly integrated as backup processing layer
-- Optimized for speed and low resource usage
-
-### Fallback: Enhanced Pattern Matching
-- Intelligent pattern-based explanations
-- Covers edge cases and special formats
-- Works when primary AI is unavailable
-- Contextual analysis for unknown terms
+### 🥉 Fallback: Enhanced Dictionary
+- **Comprehensive Explanations**: Detailed explanations for common terms and patterns
+- **Pattern-based Analysis**: Smart detection of special formats and content types
+- **Always Available**: Works when AI models are unavailable
+- **Contextual Responses**: Provides helpful explanations based on text characteristics
 
 ## 📋 Requirements
 

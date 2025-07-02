@@ -265,25 +265,36 @@
     </div>
     
     <div class="section">
-      <h2>AI Models</h2>
+      <h2>AI Models (Priority Order)</h2>
       
       <div class="model-section">
-        <h3>🚀 Advanced AI Model v2.0</h3>
+        <h3>🥇 Chrome Built-in AI (Gemini Nano) - PRIMARY</h3>
+        <div id="chromeAiStatus">
+          <span class="status inactive">Checking...</span>
+        </div>
+        <div style="font-size: 12px; color: #666; margin-top: 4px;">
+          <strong>Google's Advanced AI:</strong> Most accurate explanations using state-of-the-art language models.<br>
+          🎯 Comprehensive understanding • 🧠 Real intelligence • ⚡ Fast responses • 🔍 Deep analysis
+        </div>
+      </div>
+      
+      <div class="model-section">
+        <h3>🥈 Advanced Local Model v2.0 - FALLBACK</h3>
         <div id="customModelStatus">
           <span class="status inactive">Checking...</span>
         </div>
         <div style="font-size: 12px; color: #666; margin-top: 4px; margin-bottom: 8px;">
-          <strong>Advanced Capabilities:</strong><br>
+          <strong>Enhanced Capabilities:</strong><br>
           📄 Paragraph Analysis (up to 5000 chars) • 🔑 Concept Extraction<br>
           📋 Contextual Understanding • 💡 Multi-level Explanations<br>
           📊 Text Summarization • 🎯 Pattern Recognition • 🧠 Domain Knowledge
         </div>
         <div class="model-actions" style="margin-top: 12px;">
           <button id="downloadModelBtn" class="action-btn primary" style="display: none;">
-            Activate Advanced AI Model v2.0
+            Activate Local Model
           </button>
           <button id="deleteModelBtn" class="action-btn danger" style="display: none;">
-            Delete Model
+            Delete Local Model
           </button>
           <div id="downloadProgress" style="display: none; margin-top: 8px;">
             <div class="progress-bar">
@@ -295,18 +306,11 @@
       </div>
       
       <div class="model-section">
-        <h3>Chrome Built-in AI</h3>
-        <div id="chromeAiStatus">
-          <span class="status inactive">Checking...</span>
-        </div>
-      </div>
-      
-      <div class="model-section">
-        <h3>Fallback Dictionary</h3>
+        <h3>🥉 Enhanced Dictionary - BACKUP</h3>
         <div>
           <span class="status active">Always Available</span>
           <div style="font-size: 12px; color: #666; margin-top: 4px;">
-            Built-in explanations for common terms
+            Comprehensive explanations for common terms and patterns when AI models are unavailable
           </div>
         </div>
       </div>
@@ -315,17 +319,21 @@
     <div class="info">
       <h3>How to Use</h3>
       <p>1. Select any text on a webpage by highlighting it with your mouse</p>
-      <p>2. A popup will appear automatically with an explanation</p>
+      <p>2. A popup will appear automatically with an accurate AI explanation</p>
       <p>3. Click the × button or click outside to close the explanation</p>
       
-      <h3 style="margin-top: 16px;">Advanced Features v2.0</h3>
-      <p>• 🚀 Advanced paragraph analysis (up to 5000 characters)</p>
-      <p>• 🔑 Intelligent concept extraction and summarization</p>
-      <p>• 📋 Context-aware explanations across multiple domains</p>
-      <p>• 💡 Multi-level detailed explanations (phrase → passage → paragraph)</p>
-      <p>• 🎯 Advanced pattern recognition and analysis</p>
-      <p>• ⚡ Instant processing with minimal CPU usage</p>
-      <p>• 🌐 Works on any website with dark mode support</p>
+      <h3 style="margin-top: 16px;">AI-Powered Features v2.0</h3>
+      <p>• 🥇 <strong>Gemini Nano AI</strong> - Google's advanced language model for most accurate explanations</p>
+      <p>• 🚀 Comprehensive analysis of any text (words, phrases, paragraphs up to 5000 characters)</p>
+      <p>• 🔑 Intelligent concept extraction and detailed explanations</p>
+      <p>• 📋 Context-aware understanding across all domains (academic, business, technical, etc.)</p>
+      <p>• 💡 Smart prompting system that adapts to different text types</p>
+      <p>• 🎯 Advanced pattern recognition (URLs, emails, percentages, acronyms)</p>
+      <p>• ⚡ Multiple AI fallback layers for maximum accuracy and availability</p>
+      <p>• 🌐 Works on any website with beautiful dark mode support</p>
+      
+      <h3 style="margin-top: 16px;">Intelligent Analysis</h3>
+      <p>The extension automatically chooses the best AI model available and creates smart prompts tailored to your selected text, ensuring you get the most accurate and comprehensive explanations possible.</p>
     </div>
   </div>
   
