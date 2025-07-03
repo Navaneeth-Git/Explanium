@@ -4,6 +4,7 @@ class ExplaniumContentScript {
     this.currentSelection = null;
     this.isProcessing = false;
     this.selectionTimeout = null;
+    this.lastExplanation = null;
     this.settings = {
       enabled: true,
       autoExplain: true,
@@ -114,6 +115,9 @@ class ExplaniumContentScript {
         const range = selection.getRangeAt(0);
         const rect = range.getBoundingClientRect();
         
+        // IMPORTANT: Clear any previous selection to ensure fresh processing
+        this.currentSelection = null;
+        
         this.currentSelection = {
           text: selectedText,
           range: range.cloneRange(), // Clone to prevent clearing
@@ -124,12 +128,14 @@ class ExplaniumContentScript {
             bottom: rect.bottom,
             width: rect.width,
             height: rect.height
-          }
+          },
+          timestamp: Date.now() // Add timestamp to ensure uniqueness
         };
         
-        console.log('📊 Selection stored:', {
+        console.log('📊 Selection stored with timestamp:', {
           text: this.currentSelection.text.substring(0, 50) + '...',
-          rect: this.currentSelection.rect
+          rect: this.currentSelection.rect,
+          timestamp: this.currentSelection.timestamp
         });
         
         this.showLoadingPopup();
@@ -149,9 +155,18 @@ class ExplaniumContentScript {
   }
   
   async requestExplanation(text) {
-    if (this.isProcessing) return;
+    if (this.isProcessing) {
+      console.log('🔄 Already processing, ignoring duplicate request');
+      return;
+    }
     
     console.log('🤖 Requesting explanation for:', text);
+    console.log('📊 Request details:', {
+      textLength: text.length,
+      timestamp: Date.now(),
+      selectionTimestamp: this.currentSelection?.timestamp
+    });
+    
     this.isProcessing = true;
     
     try {
@@ -160,10 +175,12 @@ class ExplaniumContentScript {
         throw new Error('Extension context invalidated - please refresh the page');
       }
       
-      // Send message to background script for AI processing
+      // Send message to background script for AI processing with unique identifier
       const response = await chrome.runtime.sendMessage({
         action: 'explainText',
-        text: text
+        text: text,
+        requestId: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+        timestamp: Date.now()
       });
       
       console.log('📡 Background response:', response);
@@ -257,6 +274,9 @@ class ExplaniumContentScript {
       return;
     }
     
+    // Store the explanation text for copy functionality
+    this.lastExplanation = explanation;
+    
     this.popup.innerHTML = `
       <div class="explanium-header">
         <div class="explanium-title">
@@ -264,10 +284,10 @@ class ExplaniumContentScript {
           <span>Explanation</span>
         </div>
         <div class="explanium-header-buttons">
-          <button class="explanium-copy" onclick="window.explanium.copyExplanation()" title="Copy explanation">
+          <button class="explanium-copy" title="Copy explanation">
             <span class="copy-icon">📋</span>
           </button>
-          <button class="explanium-close" onclick="window.explanium.hidePopup()">×</button>
+          <button class="explanium-close">×</button>
         </div>
       </div>
       <div class="explanium-content">
@@ -275,7 +295,25 @@ class ExplaniumContentScript {
       </div>
     `;
     
-    console.log('✅ Explanation popup updated with content');
+    // Add event listeners directly to the buttons
+    const copyButton = this.popup.querySelector('.explanium-copy');
+    const closeButton = this.popup.querySelector('.explanium-close');
+    
+    if (copyButton) {
+      copyButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.copyExplanation();
+      });
+    }
+    
+    if (closeButton) {
+      closeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.hidePopup();
+      });
+    }
+    
+    console.log('✅ Explanation popup updated with content and event listeners');
   }
   
   showError(error) {
@@ -330,6 +368,9 @@ class ExplaniumContentScript {
   createEmergencyPopup(explanation) {
     console.log('🚨 Creating emergency popup...');
     
+    // Store the explanation text for copy functionality
+    this.lastExplanation = explanation;
+    
     const popup = this.createPopup();
     popup.innerHTML = `
       <div class="explanium-header">
@@ -338,10 +379,10 @@ class ExplaniumContentScript {
           <span>Explanation</span>
         </div>
         <div class="explanium-header-buttons">
-          <button class="explanium-copy" onclick="window.explanium.copyExplanation()" title="Copy explanation">
+          <button class="explanium-copy" title="Copy explanation">
             <span class="copy-icon">📋</span>
           </button>
-          <button class="explanium-close" onclick="window.explanium.hidePopup()">×</button>
+          <button class="explanium-close">×</button>
         </div>
       </div>
       <div class="explanium-content">
@@ -351,6 +392,24 @@ class ExplaniumContentScript {
         </div>
       </div>
     `;
+    
+    // Add event listeners directly to the buttons
+    const copyButton = popup.querySelector('.explanium-copy');
+    const closeButton = popup.querySelector('.explanium-close');
+    
+    if (copyButton) {
+      copyButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.copyExplanation();
+      });
+    }
+    
+    if (closeButton) {
+      closeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.hidePopup();
+      });
+    }
     
     // Position at center of viewport
     const popupWidth = 350;
@@ -379,15 +438,36 @@ class ExplaniumContentScript {
   }
 
   copyExplanation() {
+    console.log('📋 Copy explanation requested');
+    
+    // First try to get text from the stored explanation
+    let explanationText = this.lastExplanation;
+    
+    // If no stored explanation, try to get from the DOM element
+    if (!explanationText) {
     const explanationElement = document.getElementById('explanium-explanation-text');
-    if (!explanationElement) {
+      if (explanationElement) {
+        explanationText = explanationElement.textContent || explanationElement.innerText;
+      }
+    }
+    
+    // If still no text, try to get from the popup content
+    if (!explanationText && this.popup) {
+      const explanationElement = this.popup.querySelector('.explanium-explanation');
+      if (explanationElement) {
+        explanationText = explanationElement.textContent || explanationElement.innerText;
+      }
+    }
+    
+    if (!explanationText) {
       console.error('❌ No explanation text found to copy');
+      this.showCopyError();
       return;
     }
 
-    const explanationText = explanationElement.textContent || explanationElement.innerText;
+    console.log('📝 Copying text:', explanationText.substring(0, 100) + '...');
     
-    // Use the Clipboard API if available
+    // Use the modern Clipboard API if available
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(explanationText).then(() => {
         this.showCopyConfirmation();
@@ -410,10 +490,15 @@ class ExplaniumContentScript {
       textArea.style.position = 'fixed';
       textArea.style.left = '-999999px';
       textArea.style.top = '-999999px';
+      textArea.style.width = '1px';
+      textArea.style.height = '1px';
+      textArea.style.opacity = '0';
+      textArea.style.pointerEvents = 'none';
       document.body.appendChild(textArea);
       
       textArea.focus();
       textArea.select();
+      textArea.setSelectionRange(0, text.length);
       
       const successful = document.execCommand('copy');
       document.body.removeChild(textArea);
@@ -423,9 +508,11 @@ class ExplaniumContentScript {
         console.log('✅ Explanation copied to clipboard using fallback method');
       } else {
         console.error('❌ Fallback copy method failed');
+        this.showCopyError();
       }
     } catch (err) {
       console.error('❌ Error in fallback copy method:', err);
+      this.showCopyError();
     }
   }
 
@@ -437,8 +524,26 @@ class ExplaniumContentScript {
       copyButton.style.color = '#4CAF50';
       
       setTimeout(() => {
+        if (copyButton.parentNode) { // Check if button still exists
+          copyButton.innerHTML = originalHTML;
+          copyButton.style.color = '';
+        }
+      }, 2000);
+    }
+  }
+
+  showCopyError() {
+    const copyButton = this.popup?.querySelector('.explanium-copy');
+    if (copyButton) {
+      const originalHTML = copyButton.innerHTML;
+      copyButton.innerHTML = '<span class="copy-icon">❌</span>';
+      copyButton.style.color = '#f44336';
+      
+      setTimeout(() => {
+        if (copyButton.parentNode) { // Check if button still exists
         copyButton.innerHTML = originalHTML;
         copyButton.style.color = '';
+        }
       }, 2000);
     }
   }

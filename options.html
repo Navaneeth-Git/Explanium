@@ -13,98 +13,95 @@
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f8f9fa;
-      padding: 16px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    
-    .container {
-      width: 600px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background: #ffffff;
+      width: 380px;
+      height: 480px;
+      font-size: 13px;
+      color: #202124;
       overflow: hidden;
     }
     
     .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #1a73e8;
       color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .header h1 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 4px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 12px;
     }
     
     .header .icon {
-      width: 32px;
-      height: 32px;
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
     }
     
-    .version {
-      font-size: 12px;
+    .header-text h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .header-text .version {
+      font-size: 11px;
       opacity: 0.9;
     }
     
     .content {
-      padding: 24px;
+      padding: 20px;
+      height: calc(100% - 72px);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     
     .section {
-      margin-bottom: 24px;
-    }
-    
-    .section:last-child {
-      margin-bottom: 0;
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 16px;
     }
     
     .section-title {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      color: #333;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: #1a73e8;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
     .setting {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 8px 0;
     }
     
-    .setting:last-child {
-      border-bottom: none;
+    .setting:not(:last-child) {
+      border-bottom: 1px solid #e8eaed;
+    }
+    
+    .setting-info {
+      flex: 1;
     }
     
     .setting-label {
       font-weight: 500;
-      color: #333;
+      color: #202124;
+      font-size: 13px;
     }
     
     .setting-desc {
-      font-size: 12px;
-      color: #666;
+      font-size: 11px;
+      color: #5f6368;
       margin-top: 2px;
     }
     
     .toggle {
-      width: 44px;
-      height: 24px;
-      background: #ddd;
-      border-radius: 12px;
+      width: 40px;
+      height: 20px;
+      background: #dadce0;
+      border-radius: 10px;
       position: relative;
       cursor: pointer;
       transition: background 0.2s;
@@ -112,13 +109,13 @@
     }
     
     .toggle.active {
-      background: #4285f4;
+      background: #1a73e8;
     }
     
     .toggle::after {
       content: '';
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       background: white;
       border-radius: 50%;
       position: absolute;
@@ -133,131 +130,145 @@
     }
     
     .ai-status {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      margin-bottom: 12px;
+      background: white;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 8px;
     }
     
     .ai-status:last-child {
       margin-bottom: 0;
     }
     
-    .status-info {
-      flex: 1;
+    .status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
     }
     
     .status-name {
       font-weight: 600;
-      color: #333;
-      margin-bottom: 4px;
-    }
-    
-    .status-desc {
-      font-size: 12px;
-      color: #666;
+      color: #202124;
+      font-size: 13px;
     }
     
     .status-badge {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
-    .status-badge.active {
-      background: #d4edda;
-      color: #155724;
+    .status-badge.primary {
+      background: #e8f0fe;
+      color: #1a73e8;
+    }
+    
+    .status-badge.secondary {
+      background: #fef7e0;
+      color: #ea8600;
     }
     
     .status-badge.inactive {
-      background: #f8d7da;
-      color: #721c24;
+      background: #f1f3f4;
+      color: #5f6368;
     }
     
-    .btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .btn-primary {
-      background: #4285f4;
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: #3367d6;
-    }
-    
-    .btn-primary:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-    
-    .btn-danger {
-      background: #dc3545;
-      color: white;
+    .status-desc {
       font-size: 11px;
-      padding: 6px 12px;
-    }
-    
-    .btn-danger:hover {
-      background: #c82333;
-    }
-    
-    .progress-container {
-      margin-top: 12px;
-      display: none;
-    }
-    
-    .progress-bar {
-      width: 100%;
-      height: 4px;
-      background: #e0e0e0;
-      border-radius: 2px;
-      overflow: hidden;
+      color: #5f6368;
       margin-bottom: 8px;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: #4285f4;
-      transition: width 0.3s ease;
-      width: 0%;
-    }
-    
-    .progress-text {
-      font-size: 11px;
-      color: #666;
-      text-align: center;
     }
     
     .model-actions {
       display: flex;
       gap: 8px;
-      align-items: center;
+    }
+    
+    .btn {
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      padding: 6px 12px;
+    }
+    
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1557b0;
+    }
+    
+    .btn-primary:disabled {
+      background: #dadce0;
+      color: #5f6368;
+      cursor: not-allowed;
+    }
+    
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #5f6368;
+      border: 1px solid #dadce0;
+    }
+    
+    .btn-secondary:hover {
+      background: #f1f3f4;
+    }
+    
+    .progress-container {
       margin-top: 8px;
+      display: none;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: #f1f3f4;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: #1a73e8;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    
+    .progress-text {
+      font-size: 10px;
+      color: #5f6368;
+      text-align: center;
+    }
+    
+    .info-text {
+      font-size: 11px;
+      color: #5f6368;
+      text-align: center;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border-left: 3px solid #1a73e8;
     }
   </style>
 </head>
 <body>
-  <div class="container">
     <div class="header">
-      <h1>
         <img src="icons/icon48.png" alt="Explanium" class="icon">
-        Explanium
-      </h1>
-      <div class="version">v5.0 AI</div>
+    <div class="header-text">
+      <h1>Explanium</h1>
+      <div class="version">AI Text Explainer</div>
+    </div>
     </div>
     
     <div class="content">
@@ -265,15 +276,15 @@
         <div class="section-title">Settings</div>
         
         <div class="setting">
-          <div>
-            <div class="setting-label">Extension</div>
-            <div class="setting-desc">Enable text explanations</div>
+        <div class="setting-info">
+          <div class="setting-label">Enable Extension</div>
+          <div class="setting-desc">Turn text explanations on/off</div>
           </div>
           <div class="toggle active" id="enableToggle"></div>
         </div>
         
         <div class="setting">
-          <div>
+        <div class="setting-info">
             <div class="setting-label">Auto-explain</div>
             <div class="setting-desc">Show popup on text selection</div>
           </div>
@@ -281,7 +292,7 @@
         </div>
         
         <div class="setting">
-          <div>
+        <div class="setting-info">
             <div class="setting-label">Long Text</div>
             <div class="setting-desc">Explain text over 200 characters</div>
           </div>
@@ -293,23 +304,25 @@
         <div class="section-title">AI Models</div>
         
         <div class="ai-status">
-          <div class="status-info">
+        <div class="status-header">
             <div class="status-name">Chrome AI</div>
-            <div class="status-desc" id="chromeAiStatus">Checking...</div>
-          </div>
-          <div class="status-badge inactive">Primary</div>
+          <div class="status-badge primary">Primary</div>
+        </div>
+        <div class="status-desc" id="chromeAiStatus">Checking availability...</div>
         </div>
         
         <div class="ai-status">
-          <div class="status-info">
-            <div class="status-name">SmolLM2-135M Browser AI</div>
-            <div class="status-desc" id="customModelStatus">650MB transformer with WebGPU acceleration</div>
+        <div class="status-header">
+          <div class="status-name">TinyLlama</div>
+          <div class="status-badge secondary">Local AI</div>
+        </div>
+        <div class="status-desc" id="customModelStatus">1.1B parameter model - Click to activate</div>
             <div class="model-actions">
-              <button id="downloadModelBtn" class="btn btn-primary" style="display: none;">
+          <button id="downloadModelBtn" class="btn btn-primary">
                 Activate
               </button>
-              <button id="deleteModelBtn" class="btn btn-danger" style="display: none;">
-                Delete
+          <button id="deleteModelBtn" class="btn btn-secondary" style="display: none;">
+            Remove
               </button>
             </div>
             <div id="downloadProgress" class="progress-container">
@@ -318,18 +331,11 @@
               </div>
               <div class="progress-text" id="progressText">Activating... 0%</div>
             </div>
-          </div>
-          <div class="status-badge inactive">Fallback</div>
         </div>
       </div>
       
-      <div class="section">
-        <div class="section-title">How to Use</div>
-        <div style="font-size: 13px; color: #666; line-height: 1.5;">
-          Select any text on a webpage to get instant AI explanations. 
-          Works with single words, phrases, or entire paragraphs.
-        </div>
-      </div>
+    <div class="info-text">
+      Select any text on a webpage to get instant explanations
     </div>
   </div>
   

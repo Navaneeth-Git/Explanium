@@ -2,22 +2,23 @@
   "manifest_version": 3,
   "name": "Explanium - Instant Text Explainer",
   "version": "5.0.0",
-  "description": "650MB SmolLM2 transformer AI model with WebGPU acceleration. Real AI inference running entirely in your browser. Clean explanations with genuine language understanding.",
+  "description": "TinyLlama-1.1B-Chat-v1.0 AI model with WebGPU acceleration. Real AI inference running entirely in your browser. Clean explanations with genuine language understanding.",
   
   "permissions": [
     "activeTab",
     "storage",
-    "downloads",
     "offscreen"
   ],
   
   "host_permissions": [
     "https://huggingface.co/*",
-    "https://cdn.jsdelivr.net/*"
+    "https://cdn.jsdelivr.net/*",
+    "https://unpkg.com/*"
   ],
   
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   
   "content_scripts": [

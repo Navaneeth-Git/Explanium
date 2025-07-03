@@ -67,7 +67,7 @@ class ExplaniumOptions {
     
     if (deleteBtn) {
       deleteBtn.addEventListener('click', async () => {
-        if (confirm('Are you sure you want to delete the downloaded model?')) {
+        if (confirm('Remove TinyLlama model?')) {
           await this.deleteModel();
         }
       });
@@ -82,43 +82,34 @@ class ExplaniumOptions {
     
     if (downloadBtn) downloadBtn.disabled = true;
     if (progressContainer) progressContainer.style.display = 'block';
-    if (progressText) progressText.textContent = 'Initializing...';
+    if (progressText) progressText.textContent = 'Starting...';
     if (progressFill) progressFill.style.width = '0%';
     
     // Create a progress monitoring system
     let progressInterval;
     
     try {
-      // Start monitoring progress
-      progressInterval = setInterval(() => {
-        this.checkDownloadProgress();
-      }, 500);
+      console.log('🚀 [OptionsUI] Sending downloadModel command to background script...');
+      const response = await chrome.runtime.sendMessage({ action: 'downloadModel' });
+      console.log('📬 [OptionsUI] Received response from background script:', response);
       
-      const response = await chrome.runtime.sendMessage({
-        action: 'downloadModel'
-      });
-      
-      clearInterval(progressInterval);
-      
-      if (response && response.success) {
+      if (response.success) {
         if (progressFill) progressFill.style.width = '100%';
-        if (progressText) progressText.textContent = 'Activated successfully!';
+        if (progressText) progressText.textContent = 'Ready!';
         setTimeout(() => {
           if (progressContainer) progressContainer.style.display = 'none';
           this.checkAIStatus(); // Refresh status
         }, 2000);
       } else {
-        const errorMsg = response ? response.error : 'Unknown error occurred';
-        if (progressText) progressText.textContent = `Error: ${errorMsg}`;
-        if (progressFill) progressFill.style.width = '0%';
+        this.showError(`Error: ${response.error || 'Activation failed. Check background logs.'}`);
+        console.error('[OptionsUI] Model activation failed:', response.error);
       }
     } catch (error) {
-      clearInterval(progressInterval);
-      console.error('Activation failed:', error);
-      if (progressText) progressText.textContent = `Error: ${error.message}`;
-      if (progressFill) progressFill.style.width = '0%';
+      this.showError(`Error: ${error.message}`);
+      console.error('[OptionsUI] Critical error during model activation:', error);
     } finally {
       if (downloadBtn) downloadBtn.disabled = false;
+      this.isActivating = false;
     }
   }
 
@@ -137,7 +128,9 @@ class ExplaniumOptions {
         }
         
         if (progressText) {
-          progressText.textContent = `Activating... ${Math.round(response.progress)}%`;
+          const sizeText = response.downloadedSize && response.totalSize ? 
+            ` (${response.downloadedSize} / ${response.totalSize})` : '';
+          progressText.textContent = `Loading... ${Math.round(response.progress)}%${sizeText}`;
         }
       }
     } catch (error) {
@@ -154,7 +147,7 @@ class ExplaniumOptions {
       if (response.success) {
         this.checkAIStatus(); // Refresh status
       } else {
-        alert(`Failed to delete model: ${response.error}`);
+        alert(`Failed to remove model: ${response.error}`);
       }
     } catch (error) {
       console.error('Delete failed:', error);
@@ -191,18 +184,20 @@ class ExplaniumOptions {
       });
       
       if (response) {
-        // Update Custom Model Status
+        // Update TinyLlama Model Status
         if (customModelStatus) {
-          if (response.customModel && response.customModel.available) {
-            customModelStatus.textContent = `${response.customModel.name} - Active (50,000+ terms)`;
+          if (response.tinyLlama && response.tinyLlama.available) {
+            customModelStatus.textContent = `Ready to use`;
             if (downloadBtn) downloadBtn.style.display = 'none';
             if (deleteBtn) deleteBtn.style.display = 'inline-block';
-          } else if (response.customModel && response.customModel.isDownloading) {
-            customModelStatus.textContent = `Activating... ${Math.round(response.customModel.progress || 0)}%`;
+          } else if (response.tinyLlama && response.tinyLlama.isDownloading) {
+            const sizeText = response.tinyLlama.downloadedSize && response.tinyLlama.totalSize ? 
+              ` (${response.tinyLlama.downloadedSize} / ${response.tinyLlama.totalSize})` : '';
+            customModelStatus.textContent = `Loading... ${Math.round(response.tinyLlama.progress || 0)}%${sizeText}`;
             if (downloadBtn) downloadBtn.style.display = 'none';
             if (deleteBtn) deleteBtn.style.display = 'none';
           } else {
-            customModelStatus.textContent = '200MB professional model - Click to activate';
+            customModelStatus.textContent = '1.1B parameter model - Click to activate';
             if (downloadBtn) downloadBtn.style.display = 'inline-block';
             if (deleteBtn) deleteBtn.style.display = 'none';
           }
@@ -214,7 +209,7 @@ class ExplaniumOptions {
             const statusText = response.chromeAi.status === 'readily' ? 'Ready' : 'Available';
             chromeAiStatus.textContent = `${response.chromeAi.model || 'Gemini Nano'} - ${statusText}`;
           } else {
-            chromeAiStatus.textContent = 'Not supported in this browser';
+            chromeAiStatus.textContent = 'Not available in this browser';
           }
         }
         
@@ -226,13 +221,13 @@ class ExplaniumOptions {
       
       // Fallback status display
       if (customModelStatus) {
-        customModelStatus.textContent = '200MB professional model - Click to activate';
+        customModelStatus.textContent = '1.1B parameter model - Click to activate';
         const downloadBtn = document.getElementById('downloadModelBtn');
         if (downloadBtn) downloadBtn.style.display = 'inline-block';
       }
       
       if (chromeAiStatus) {
-        chromeAiStatus.textContent = 'Status unknown';
+        chromeAiStatus.textContent = 'Checking...';
       }
     }
   }
@@ -241,4 +236,79 @@ class ExplaniumOptions {
 // Initialize options when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   new ExplaniumOptions();
-}); 
+  updateModelStatus();
+  setInterval(updateModelStatus, 3000); // Periodically update status
+
+  document.getElementById('activateModel').addEventListener('click', () => {
+    console.log('[Options] Activate button clicked.');
+    const activateButton = document.getElementById('activateModel');
+    const statusDiv = document.getElementById('modelStatus');
+    
+    activateButton.disabled = true;
+    statusDiv.textContent = 'Model is activating...';
+    activateButton.textContent = 'Activating...';
+
+    console.log('[Options] Sending ACTIVATE_MODEL message to background.');
+    chrome.runtime.sendMessage({ type: 'ACTIVATE_MODEL' }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('[Options] Error sending ACTIVATE_MODEL message:', chrome.runtime.lastError.message);
+        statusDiv.textContent = `Error: ${chrome.runtime.lastError.message}`;
+      } else {
+        console.log('[Options] Received response for ACTIVATE_MODEL request:', response);
+        if (response && response.error) {
+          statusDiv.textContent = `Error: ${response.error}`;
+        }
+      }
+      updateModelStatus(); // Refresh status after activation attempt
+    });
+  });
+});
+
+function updateModelStatus() {
+  const statusDiv = document.getElementById('modelStatus');
+  const activateButton = document.getElementById('activateModel');
+  
+  console.log('[Options] Pinging background for model status');
+  chrome.runtime.sendMessage({ type: 'GET_MODEL_STATUS' }, (response) => {
+    if (chrome.runtime.lastError) {
+      console.error('[Options] Error getting model status:', chrome.runtime.lastError.message);
+      statusDiv.textContent = 'Error: Could not connect to the extension background. Please try reloading the extension.';
+      activateButton.disabled = true;
+      return;
+    }
+
+    if (!response) {
+      console.error('[Options] Received empty/invalid response for GET_MODEL_STATUS');
+      statusDiv.textContent = 'Status: Unknown (no response from background)';
+      activateButton.disabled = false;
+      activateButton.textContent = 'Activate Model';
+      return;
+    }
+    
+    console.log('[Options] Received status response:', response);
+
+    if (response.error) {
+      statusDiv.textContent = `Error: ${response.error}`;
+      activateButton.disabled = false;
+      activateButton.textContent = 'Activate Model';
+    } else if (response.active) {
+      statusDiv.textContent = 'Model is active.';
+      activateButton.disabled = true;
+      activateButton.textContent = 'Active';
+    } else if (response.activating) {
+      statusDiv.textContent = 'Model is activating... This may take a minute.';
+      activateButton.disabled = true;
+      activateButton.textContent = 'Activating...';
+    } else if (response.downloading) {
+      const { progress, downloadedSize, totalSize } = response;
+      const sizeText = downloadedSize && totalSize ? `(${downloadedSize} / ${totalSize})` : '';
+      statusDiv.textContent = `Downloading model... ${Math.round(progress)}% ${sizeText}`;
+      activateButton.disabled = true;
+      activateButton.textContent = 'Downloading...';
+    } else {
+      statusDiv.textContent = 'Model is not active.';
+      activateButton.disabled = false;
+      activateButton.textContent = 'Activate Model';
+    }
+  });
+} 
