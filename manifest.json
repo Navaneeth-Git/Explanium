@@ -1,19 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Explanium - Instant Text Explainer",
-  "version": "5.0.0",
-  "description": "TinyLlama-1.1B-Chat-v1.0 AI model with WebGPU acceleration. Real AI inference running entirely in your browser. Clean explanations with genuine language understanding.",
+  "version": "6.0.0",
+  "description": "AI-powered text explanations using Google Gemma-3-1b-it. Get instant, fast explanations for any selected text with optimized performance.",
   
   "permissions": [
     "activeTab",
     "storage",
-    "offscreen"
+    "contextMenus"
   ],
   
   "host_permissions": [
-    "https://huggingface.co/*",
-    "https://cdn.jsdelivr.net/*",
-    "https://unpkg.com/*"
+    "https://generativelanguage.googleapis.com/*"
   ],
   
   "background": {
@@ -32,7 +30,7 @@
   
   "web_accessible_resources": [
     {
-      "resources": ["popup.html", "popup.css", "popup.js", "models/*"],
+      "resources": ["popup.html", "popup.css", "popup.js"],
       "matches": ["<all_urls>"]
     }
   ],

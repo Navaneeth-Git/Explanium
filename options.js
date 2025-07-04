@@ -12,9 +12,8 @@ class ExplaniumOptions {
   async init() {
     await this.loadSettings();
     this.setupEventListeners();
-    this.setupModelEventListeners();
     this.updateUI();
-    this.checkAIStatus();
+    this.checkStatus();
   }
   
   async loadSettings() {
@@ -37,6 +36,7 @@ class ExplaniumOptions {
   }
   
   setupEventListeners() {
+    // Toggle switches
     const toggles = {
       enableToggle: 'enabled',
       autoExplainToggle: 'autoExplain',
@@ -53,106 +53,116 @@ class ExplaniumOptions {
         });
       }
     });
-  }
-  
-  setupModelEventListeners() {
-    const downloadBtn = document.getElementById('downloadModelBtn');
-    const deleteBtn = document.getElementById('deleteModelBtn');
-    
-    if (downloadBtn) {
-      downloadBtn.addEventListener('click', async () => {
-        await this.downloadModel();
+
+    // API key management
+    const saveApiKeyBtn = document.getElementById('saveApiKey');
+    const apiKeyInput = document.getElementById('apiKey');
+
+    if (saveApiKeyBtn) {
+      saveApiKeyBtn.addEventListener('click', () => {
+        this.saveApiKey();
       });
     }
-    
-    if (deleteBtn) {
-      deleteBtn.addEventListener('click', async () => {
-        if (confirm('Remove TinyLlama model?')) {
-          await this.deleteModel();
+
+    if (apiKeyInput) {
+      apiKeyInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          this.saveApiKey();
         }
       });
     }
+
+    // Load existing API key
+    this.loadApiKey();
   }
-  
-  async downloadModel() {
-    const downloadBtn = document.getElementById('downloadModelBtn');
-    const progressContainer = document.getElementById('downloadProgress');
-    const progressFill = document.getElementById('progressFill');
-    const progressText = document.getElementById('progressText');
-    
-    if (downloadBtn) downloadBtn.disabled = true;
-    if (progressContainer) progressContainer.style.display = 'block';
-    if (progressText) progressText.textContent = 'Starting...';
-    if (progressFill) progressFill.style.width = '0%';
-    
-    // Create a progress monitoring system
-    let progressInterval;
-    
+
+  async loadApiKey() {
     try {
-      console.log('🚀 [OptionsUI] Sending downloadModel command to background script...');
-      const response = await chrome.runtime.sendMessage({ action: 'downloadModel' });
-      console.log('📬 [OptionsUI] Received response from background script:', response);
-      
-      if (response.success) {
-        if (progressFill) progressFill.style.width = '100%';
-        if (progressText) progressText.textContent = 'Ready!';
-        setTimeout(() => {
-          if (progressContainer) progressContainer.style.display = 'none';
-          this.checkAIStatus(); // Refresh status
-        }, 2000);
-      } else {
-        this.showError(`Error: ${response.error || 'Activation failed. Check background logs.'}`);
-        console.error('[OptionsUI] Model activation failed:', response.error);
+      const result = await chrome.storage.sync.get(['gemini_api_key']);
+      const apiKeyInput = document.getElementById('apiKey');
+      if (result.gemini_api_key && apiKeyInput) {
+        apiKeyInput.value = result.gemini_api_key;
       }
     } catch (error) {
-      this.showError(`Error: ${error.message}`);
-      console.error('[OptionsUI] Critical error during model activation:', error);
-    } finally {
-      if (downloadBtn) downloadBtn.disabled = false;
-      this.isActivating = false;
+      console.error('Failed to load API key:', error);
     }
   }
 
-  async checkDownloadProgress() {
+  async saveApiKey() {
+    const apiKeyInput = document.getElementById('apiKey');
+    const saveBtn = document.getElementById('saveApiKey');
+    
+    if (!apiKeyInput || !saveBtn) return;
+
+    const apiKey = apiKeyInput.value.trim();
+    
+    if (!apiKey) {
+      this.showMessage('Please enter an API key', 'error');
+      return;
+    }
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
     try {
       const response = await chrome.runtime.sendMessage({
-        action: 'getModelStatus'
+        type: 'SET_API_KEY',
+        apiKey: apiKey
       });
-      
-      if (response && response.isDownloading) {
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        
-        if (progressFill) {
-          progressFill.style.width = `${response.progress}%`;
-        }
-        
-        if (progressText) {
-          const sizeText = response.downloadedSize && response.totalSize ? 
-            ` (${response.downloadedSize} / ${response.totalSize})` : '';
-          progressText.textContent = `Loading... ${Math.round(response.progress)}%${sizeText}`;
-        }
+
+      if (response.success) {
+        this.showMessage('✅ API key saved successfully!', 'success');
+        this.checkStatus();
+      } else {
+        this.showMessage(`❌ Failed to save API key: ${response.error}`, 'error');
       }
     } catch (error) {
-      console.error('Failed to check download progress:', error);
+      this.showMessage(`❌ Error: ${error.message}`, 'error');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save API Key';
     }
   }
-  
-  async deleteModel() {
+
+  async checkStatus() {
     try {
-      const response = await chrome.runtime.sendMessage({
-        action: 'deleteModel'
-      });
+      const response = await chrome.runtime.sendMessage({ type: 'GET_STATUS' });
+      const statusDiv = document.getElementById('connectionStatus');
+      const statusText = document.getElementById('statusText');
       
-      if (response.success) {
-        this.checkAIStatus(); // Refresh status
+      if (!statusDiv || !statusText) return;
+
+      if (response.hasApiKey) {
+        statusDiv.className = 'status success';
+        statusText.textContent = `✅ API key configured! ${response.model || 'Gemma-3-1b-it'} model ready for explanations.`;
       } else {
-        alert(`Failed to remove model: ${response.error}`);
+        statusDiv.className = 'status error';
+        statusText.textContent = '❌ No API key configured. Please add your Google Gemini API key above.';
       }
     } catch (error) {
-      console.error('Delete failed:', error);
-      alert(`Error: ${error.message}`);
+      console.error('Failed to check status:', error);
+      const statusDiv = document.getElementById('connectionStatus');
+      const statusText = document.getElementById('statusText');
+      
+      if (statusDiv && statusText) {
+        statusDiv.className = 'status error';
+        statusText.textContent = '❌ Unable to check status. Please reload the extension.';
+      }
     }
+  }
+
+  showMessage(message, type) {
+    const messageDiv = document.getElementById('statusMessage');
+    if (!messageDiv) return;
+
+    messageDiv.textContent = message;
+    messageDiv.className = `status ${type}`;
+    messageDiv.classList.remove('hidden');
+
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      messageDiv.classList.add('hidden');
+    }, 5000);
   }
   
   updateUI() {
@@ -166,149 +176,17 @@ class ExplaniumOptions {
     Object.entries(toggles).forEach(([toggleId, isActive]) => {
       const toggle = document.getElementById(toggleId);
       if (toggle) {
-        toggle.classList.toggle('active', isActive);
+        if (isActive) {
+          toggle.classList.add('active');
+        } else {
+          toggle.classList.remove('active');
+        }
       }
     });
-  }
-  
-  async checkAIStatus() {
-    const customModelStatus = document.getElementById('customModelStatus');
-    const chromeAiStatus = document.getElementById('chromeAiStatus');
-    const downloadBtn = document.getElementById('downloadModelBtn');
-    const deleteBtn = document.getElementById('deleteModelBtn');
-    
-    try {
-      // Get comprehensive AI status from background script
-      const response = await chrome.runtime.sendMessage({
-        action: 'checkAIStatus'
-      });
-      
-      if (response) {
-        // Update TinyLlama Model Status
-        if (customModelStatus) {
-          if (response.tinyLlama && response.tinyLlama.available) {
-            customModelStatus.textContent = `Ready to use`;
-            if (downloadBtn) downloadBtn.style.display = 'none';
-            if (deleteBtn) deleteBtn.style.display = 'inline-block';
-          } else if (response.tinyLlama && response.tinyLlama.isDownloading) {
-            const sizeText = response.tinyLlama.downloadedSize && response.tinyLlama.totalSize ? 
-              ` (${response.tinyLlama.downloadedSize} / ${response.tinyLlama.totalSize})` : '';
-            customModelStatus.textContent = `Loading... ${Math.round(response.tinyLlama.progress || 0)}%${sizeText}`;
-            if (downloadBtn) downloadBtn.style.display = 'none';
-            if (deleteBtn) deleteBtn.style.display = 'none';
-          } else {
-            customModelStatus.textContent = '1.1B parameter model - Click to activate';
-            if (downloadBtn) downloadBtn.style.display = 'inline-block';
-            if (deleteBtn) deleteBtn.style.display = 'none';
-          }
-        }
-        
-        // Update Chrome AI Status
-        if (chromeAiStatus) {
-          if (response.chromeAi && response.chromeAi.available) {
-            const statusText = response.chromeAi.status === 'readily' ? 'Ready' : 'Available';
-            chromeAiStatus.textContent = `${response.chromeAi.model || 'Gemini Nano'} - ${statusText}`;
-          } else {
-            chromeAiStatus.textContent = 'Not available in this browser';
-          }
-        }
-        
-        console.log(`Primary AI source: ${response.primarySource}`);
-        
-      }
-    } catch (error) {
-      console.error('Failed to check AI status:', error);
-      
-      // Fallback status display
-      if (customModelStatus) {
-        customModelStatus.textContent = '1.1B parameter model - Click to activate';
-        const downloadBtn = document.getElementById('downloadModelBtn');
-        if (downloadBtn) downloadBtn.style.display = 'inline-block';
-      }
-      
-      if (chromeAiStatus) {
-        chromeAiStatus.textContent = 'Checking...';
-      }
-    }
   }
 }
 
 // Initialize options when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   new ExplaniumOptions();
-  updateModelStatus();
-  setInterval(updateModelStatus, 3000); // Periodically update status
-
-  document.getElementById('activateModel').addEventListener('click', () => {
-    console.log('[Options] Activate button clicked.');
-    const activateButton = document.getElementById('activateModel');
-    const statusDiv = document.getElementById('modelStatus');
-    
-    activateButton.disabled = true;
-    statusDiv.textContent = 'Model is activating...';
-    activateButton.textContent = 'Activating...';
-
-    console.log('[Options] Sending ACTIVATE_MODEL message to background.');
-    chrome.runtime.sendMessage({ type: 'ACTIVATE_MODEL' }, (response) => {
-      if (chrome.runtime.lastError) {
-        console.error('[Options] Error sending ACTIVATE_MODEL message:', chrome.runtime.lastError.message);
-        statusDiv.textContent = `Error: ${chrome.runtime.lastError.message}`;
-      } else {
-        console.log('[Options] Received response for ACTIVATE_MODEL request:', response);
-        if (response && response.error) {
-          statusDiv.textContent = `Error: ${response.error}`;
-        }
-      }
-      updateModelStatus(); // Refresh status after activation attempt
-    });
-  });
-});
-
-function updateModelStatus() {
-  const statusDiv = document.getElementById('modelStatus');
-  const activateButton = document.getElementById('activateModel');
-  
-  console.log('[Options] Pinging background for model status');
-  chrome.runtime.sendMessage({ type: 'GET_MODEL_STATUS' }, (response) => {
-    if (chrome.runtime.lastError) {
-      console.error('[Options] Error getting model status:', chrome.runtime.lastError.message);
-      statusDiv.textContent = 'Error: Could not connect to the extension background. Please try reloading the extension.';
-      activateButton.disabled = true;
-      return;
-    }
-
-    if (!response) {
-      console.error('[Options] Received empty/invalid response for GET_MODEL_STATUS');
-      statusDiv.textContent = 'Status: Unknown (no response from background)';
-      activateButton.disabled = false;
-      activateButton.textContent = 'Activate Model';
-      return;
-    }
-    
-    console.log('[Options] Received status response:', response);
-
-    if (response.error) {
-      statusDiv.textContent = `Error: ${response.error}`;
-      activateButton.disabled = false;
-      activateButton.textContent = 'Activate Model';
-    } else if (response.active) {
-      statusDiv.textContent = 'Model is active.';
-      activateButton.disabled = true;
-      activateButton.textContent = 'Active';
-    } else if (response.activating) {
-      statusDiv.textContent = 'Model is activating... This may take a minute.';
-      activateButton.disabled = true;
-      activateButton.textContent = 'Activating...';
-    } else if (response.downloading) {
-      const { progress, downloadedSize, totalSize } = response;
-      const sizeText = downloadedSize && totalSize ? `(${downloadedSize} / ${totalSize})` : '';
-      statusDiv.textContent = `Downloading model... ${Math.round(progress)}% ${sizeText}`;
-      activateButton.disabled = true;
-      activateButton.textContent = 'Downloading...';
-    } else {
-      statusDiv.textContent = 'Model is not active.';
-      activateButton.disabled = false;
-      activateButton.textContent = 'Activate Model';
-    }
-  });
-} 
+}); 
