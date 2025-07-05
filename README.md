@@ -1,6 +1,6 @@
 # 🚀 Explanium - AI-Powered Text Explainer
 
-A powerful Chrome extension that provides instant explanations for any selected text using Google's Gemini AI. Get fast, accurate explanations with a beautiful dark interface and privacy-first design.
+A powerful Chromium extension that provides instant explanations for any selected text using Google's Gemini AI. Get fast, accurate explanations with a beautiful dark interface and privacy-first design.
 
 ## ✨ Key Features
 
