@@ -25,6 +25,7 @@ class ExplaniumContentScript {
     
     this.setupEventListeners();
     this.setupMessageListener();
+    this.setupStorageListener(); // Add storage listener for settings changes
     
     // Hide popup when clicking outside (but not during processing)
     document.addEventListener('click', (e) => {
@@ -69,6 +70,24 @@ class ExplaniumContentScript {
     console.log('✅ Explanium content script initialized successfully');
   }
   
+  setupStorageListener() {
+    // Listen for storage changes to update settings in real-time
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync' && changes.explanium_settings) {
+        console.log('📋 Settings changed, updating...', changes.explanium_settings.newValue);
+        this.settings = { ...this.settings, ...changes.explanium_settings.newValue };
+        
+        // If extension is disabled, hide any existing popup
+        if (!this.settings.enabled && this.popup) {
+          console.log('🚫 Extension disabled, hiding popup');
+          this.hidePopup();
+        }
+        
+        console.log('📋 Settings updated:', this.settings);
+      }
+    });
+  }
+  
   setupMessageListener() {
     // Listen for messages from background script (context menu)
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -76,6 +95,13 @@ class ExplaniumContentScript {
       
       if (request.type === 'CONTEXT_MENU_EXPLAIN' && request.text) {
         console.log('[Content] Context menu explain request:', request.text.substring(0, 50) + '...');
+        
+        // Check if extension is enabled for context menu
+        if (!this.settings.enabled) {
+          console.log('❌ Extension disabled, ignoring context menu request');
+          sendResponse({ success: false, error: 'Extension is disabled' });
+          return;
+        }
         
         // Try to get actual selection position, fallback to mouse position
         const selection = window.getSelection();
@@ -177,15 +203,31 @@ class ExplaniumContentScript {
       return;
     }
     
-    // Check if extension is enabled
-    if (!this.settings.enabled || !this.settings.autoExplain) {
-      console.log('❌ Extension disabled or auto-explain off:', {
+    // Check if extension is enabled - this should now always be current due to storage listener
+    if (!this.settings.enabled) {
+      console.log('❌ Extension is disabled, skipping selection', {
         enabled: this.settings.enabled,
         autoExplain: this.settings.autoExplain,
-        settingsLoaded: this.settingsLoaded
+        longText: this.settings.longText
       });
       return;
     }
+    
+    // Check if auto-explain is enabled
+    if (!this.settings.autoExplain) {
+      console.log('❌ Auto-explain is disabled, skipping selection', {
+        enabled: this.settings.enabled,
+        autoExplain: this.settings.autoExplain,
+        longText: this.settings.longText
+      });
+      return;
+    }
+    
+    console.log('✅ Settings check passed:', {
+      enabled: this.settings.enabled,
+      autoExplain: this.settings.autoExplain,
+      longText: this.settings.longText
+    });
     
     // Throttle selection handling to prevent duplicate triggers
     const now = Date.now();

@@ -248,9 +248,22 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // Handle context menu clicks
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "explanium-explain" && info.selectionText) {
         console.log('[Background] Context menu clicked with text:', info.selectionText.substring(0, 50) + '...');
+        
+        // Check if extension is enabled before processing
+        try {
+            const result = await chrome.storage.sync.get(['explanium_settings']);
+            const settings = result.explanium_settings || { enabled: true, autoExplain: true, longText: false };
+            
+            if (!settings.enabled) {
+                console.log('[Background] Extension is disabled, ignoring context menu request');
+                return;
+            }
+        } catch (error) {
+            console.error('[Background] Failed to check settings:', error);
+        }
         
         // Send message to content script to show explanation
         chrome.tabs.sendMessage(tab.id, {
@@ -284,12 +297,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true; // Async response
 
         case 'EXPLAIN_TEXT':
-            gemmaExplainer.explainText(request.text)
-            .then(response => {
-                    console.log('[Background] Explanation result:', response.success ? 'Success' : response.error);
-                sendResponse(response);
-            })
-            .catch(error => {
+            // Check if extension is enabled before processing explanation
+            chrome.storage.sync.get(['explanium_settings'])
+                .then(result => {
+                    const settings = result.explanium_settings || { enabled: true, autoExplain: true, longText: false };
+                    
+                    if (!settings.enabled) {
+                        console.log('[Background] Extension is disabled, rejecting explanation request');
+                        sendResponse({ success: false, error: 'Extension is disabled' });
+                        return;
+                    }
+                    
+                    // Proceed with explanation
+                    return gemmaExplainer.explainText(request.text);
+                })
+                .then(response => {
+                    if (response) {
+                        console.log('[Background] Explanation result:', response.success ? 'Success' : response.error);
+                        sendResponse(response);
+                    }
+                })
+                .catch(error => {
                     console.error('[Background] Error explaining text:', error);
                     sendResponse({ success: false, error: error.message });
                 });

@@ -29,9 +29,11 @@ class ExplaniumOptions {
   
   async saveSettings() {
     try {
+      console.log('💾 Saving settings:', this.settings);
       await chrome.storage.sync.set({ explanium_settings: this.settings });
+      console.log('✅ Settings saved successfully');
     } catch (error) {
-      console.error('Failed to save settings:', error);
+      console.error('❌ Failed to save settings:', error);
     }
   }
   
@@ -47,9 +49,23 @@ class ExplaniumOptions {
       const toggle = document.getElementById(toggleId);
       if (toggle) {
         toggle.addEventListener('click', () => {
+          const oldValue = this.settings[settingKey];
           this.settings[settingKey] = !this.settings[settingKey];
+          const newValue = this.settings[settingKey];
+          
+          console.log(`🔄 Toggle ${settingKey}: ${oldValue} → ${newValue}`);
+          
           this.updateUI();
           this.saveSettings();
+          
+          // Show immediate feedback
+          const settingName = {
+            enabled: 'Extension',
+            autoExplain: 'Auto-explain',
+            longText: 'Long text'
+          }[settingKey];
+          
+          this.showMessage(`${settingName} ${newValue ? 'enabled' : 'disabled'}`, 'success');
         });
       }
     });

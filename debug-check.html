@@ -3,164 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explanium Extension Test Page</title>
+    <title>Explanium Debug Test</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.6;
-        }
-        .test-section {
-            background: #f5f5f5;
+            margin: 0;
             padding: 20px;
-            margin: 20px 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
             border-radius: 8px;
-            border-left: 4px solid #4285f4;
+            border-left: 4px solid #00d4aa;
+        }
+        .section h2 {
+            color: #00d4aa;
+            margin-top: 0;
         }
         .test-text {
             background: #fff;
             padding: 15px;
+            border-radius: 5px;
             margin: 10px 0;
             border: 1px solid #ddd;
-            border-radius: 4px;
         }
-        .instructions {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
         .debug-info {
-            background: #fff3cd;
+            background: #e3f2fd;
             padding: 15px;
-            border-radius: 4px;
-            margin-top: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .debug-info h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .debug-info code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
             font-family: monospace;
-            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <h1>🧪 Explanium Extension Test Page</h1>
-    
-    <div class="instructions">
-        <h3>How to test:</h3>
-        <ol>
-            <li>Make sure the Explanium extension is loaded and enabled</li>
-            <li>Try selecting the text samples below</li>
-            <li>A popup should appear with explanations</li>
-            <li>Check the browser console (F12) for any errors</li>
-        </ol>
-    </div>
+    <div class="container">
+        <h1>🔧 Explanium Debug Test Page</h1>
+        
+        <div class="debug-info">
+            <h3>🛠️ Testing Settings Fix</h3>
+            <p>This page is designed to test the settings fix for the Explanium extension.</p>
+            <p><strong>Instructions:</strong></p>
+            <ol>
+                <li>Open the browser console (F12) to see debug messages</li>
+                <li>Try selecting text below with the extension enabled</li>
+                <li>Go to extension options and disable the extension</li>
+                <li>Try selecting text again - it should NOT work</li>
+                <li>Re-enable the extension and try again - it should work immediately</li>
+            </ol>
+        </div>
 
-    <div class="test-section">
-        <h3>📱 Simple Terms (Test these first)</h3>
-        
-        <div class="test-text">
-            Select this word: <strong>API</strong>
+        <div class="section">
+            <h2>🧪 Test 1: Settings Toggle</h2>
+            <div class="test-text">
+                <p>Select this text to test the extension: <span class="highlight">Machine learning</span> is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed.</p>
+            </div>
+            <p><strong>Expected behavior:</strong> When extension is disabled, no popup should appear. When enabled, popup should appear immediately.</p>
         </div>
-        
-        <div class="test-text">
-            Try this term: <strong>algorithm</strong>
-        </div>
-        
-        <div class="test-text">
-            Test this acronym: <strong>CEO</strong>
-        </div>
-    </div>
 
-    <div class="test-section">
-        <h3>🔬 Technical Terms</h3>
-        
-        <div class="test-text">
-            This should work: <strong>machine learning</strong>
+        <div class="section">
+            <h2>🧪 Test 2: Auto-explain Toggle</h2>
+            <div class="test-text">
+                <p>Select this text to test auto-explain: <span class="highlight">Quantum computing</span> uses quantum mechanical phenomena like superposition and entanglement to process information in fundamentally different ways than classical computers.</p>
+            </div>
+            <p><strong>Expected behavior:</strong> When auto-explain is disabled, no popup should appear on selection. Context menu should still work.</p>
         </div>
-        
-        <div class="test-text">
-            Try selecting: <strong>database</strong>
-        </div>
-        
-        <div class="test-text">
-            Test this phrase: <strong>neural network</strong>
-        </div>
-    </div>
 
-    <div class="test-section">
-        <h3>💼 Business Terms</h3>
-        
-        <div class="test-text">
-            Select this: <strong>stakeholder</strong>
+        <div class="section">
+            <h2>🧪 Test 3: Context Menu</h2>
+            <div class="test-text">
+                <p>Right-click this text and select "Explain with Explanium": <span class="highlight">Artificial neural networks</span> are computing systems inspired by biological neural networks that constitute animal brains.</p>
+            </div>
+            <p><strong>Expected behavior:</strong> Context menu should respect the extension enabled/disabled setting, but should work even when auto-explain is disabled.</p>
         </div>
-        
-        <div class="test-text">
-            Try this: <strong>ROI</strong>
-        </div>
-        
-        <div class="test-text">
-            Test this: <strong>scalability</strong>
-        </div>
-    </div>
 
-    <div class="test-section">
-        <h3>🔢 Pattern Tests</h3>
-        
-        <div class="test-text">
-            Select this percentage: <strong>25%</strong>
+        <div class="section">
+            <h2>🧪 Test 4: Long Text</h2>
+            <div class="test-text">
+                <p>Select this longer text: <span class="highlight">Deep learning is a subset of machine learning that uses artificial neural networks with multiple layers to model and understand complex patterns in data. It has revolutionized fields like computer vision, natural language processing, and speech recognition by enabling computers to automatically learn hierarchical representations of data. The term "deep" refers to the multiple layers in the network, with each layer learning progressively more abstract features from the raw input data.</span></p>
+            </div>
+            <p><strong>Expected behavior:</strong> Should work based on the "Long text" setting in options.</p>
         </div>
-        
-        <div class="test-text">
-            Try this email: <strong>test@example.com</strong>
-        </div>
-        
-        <div class="test-text">
-            Test this URL: <strong>https://example.com</strong>
+
+        <div class="debug-info">
+            <h3>🔍 Debug Console Messages</h3>
+            <p>Watch the browser console for these messages:</p>
+            <ul>
+                <li><code>📋 Settings changed, updating...</code> - When settings are updated</li>
+                <li><code>✅ Settings check passed</code> - When text selection is allowed</li>
+                <li><code>❌ Extension is disabled</code> - When extension is disabled</li>
+                <li><code>❌ Auto-explain is disabled</code> - When auto-explain is disabled</li>
+                <li><code>🚫 Extension disabled, hiding popup</code> - When popup is hidden due to settings</li>
+            </ul>
         </div>
     </div>
-
-    <div class="debug-info">
-        <h4>🐛 Debug Information:</h4>
-        <p>If nothing happens when you select text:</p>
-        <ul>
-            <li>Open Developer Tools (F12)</li>
-            <li>Check the Console tab for errors</li>
-            <li>Look for messages starting with "Explanium"</li>
-            <li>Check if content script is loaded</li>
-        </ul>
-        
-        <p>Common issues:</p>
-        <ul>
-            <li>Extension not enabled in chrome://extensions/</li>
-            <li>Page needs to be refreshed after installing extension</li>
-            <li>Settings might be disabled in extension popup</li>
-            <li>JavaScript errors blocking execution</li>
-        </ul>
-    </div>
-
-    <script>
-        // Debug script to help identify issues
-        console.log('🧪 Explanium Test Page Loaded');
-        
-        // Check if extension content script is loaded
-        setTimeout(() => {
-            if (window.explanium || document.querySelector('.explanium-popup')) {
-                console.log('✅ Explanium extension detected');
-            } else {
-                console.log('❌ Explanium extension not detected');
-                console.log('💡 Try refreshing the page or checking extension status');
-            }
-        }, 1000);
-        
-        // Log text selections for debugging
-        document.addEventListener('mouseup', () => {
-            const selection = window.getSelection();
-            const selectedText = selection.toString().trim();
-            if (selectedText) {
-                console.log('📝 Text selected:', selectedText);
-                console.log('📝 Selection length:', selectedText.length);
-            }
-        });
-    </script>
 </body>
 </html> 
