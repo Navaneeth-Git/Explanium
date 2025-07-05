@@ -180,3 +180,6 @@ Open these files in your browser to test various text selection scenarios.
 - **CPU Impact**: Minimal (< 1% on modern devices)
 - **Network Usage**: ~1-2KB per explanation request
 - **Response Time**: Typically 1-3 seconds depending on network 
+
+  ## Like this Project?
+  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/quackityduck) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/navaneethnandakumar) 
