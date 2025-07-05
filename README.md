@@ -13,6 +13,15 @@ A powerful Chromium extension that provides instant explanations for any selecte
 - 📱 **Responsive Design**: Works perfectly on all screen sizes and websites
 - 🌐 **Universal Compatibility**: Works on any website with selected text
 
+
+## ScreenShots
+
+![Screenshot 2025-07-05 235010](https://github.com/user-attachments/assets/76687efb-94a2-4b11-8ab7-2afc77184225)
+![Screenshot 2025-07-05 235037](https://github.com/user-attachments/assets/b484e23e-5b48-4c6c-a527-eedebf50b4ee)
+![Screenshot 2025-07-05 235137](https://github.com/user-attachments/assets/6a568394-db81-4fbd-818d-a87e43fc8fd9)
+![Screenshot 2025-07-05 235212](https://github.com/user-attachments/assets/a396ac95-2563-40b5-a724-3b9c22d8b62d)
+
+
 ## 🚀 Quick Start
 
 ### Installation
