@@ -3,110 +3,183 @@
 ## Quick Start
 
 ### 1. Install the Extension
-1. Load the extension in Chrome/Edge by going to extensions page
-2. Enable "Developer mode" and click "Load unpacked"
-3. Select the Explanium folder
+1. **Download/Clone** the Explanium repository
+2. **Open Chrome** and go to `chrome://extensions/`
+3. **Enable "Developer mode"** (toggle in top right)
+4. **Click "Load unpacked"** and select the Explanium folder
+5. **Pin the extension** to your toolbar for easy access
 
-### 2. Activate Enhanced Model (Recommended)
+### 2. Get Your API Key
+1. **Visit [Google AI Studio](https://aistudio.google.com/app/apikey)**
+2. **Sign in** with your Google account
+3. **Create a new API key** (free tier available)
+4. **Copy the API key** for the next step
+
+### 3. Configure the Extension
 1. **Click the extension icon** in your browser toolbar
-2. **Click "Activate Enhanced Model"** button
-3. **Wait for activation** - progress bar will show status
-4. **Done!** The enhanced explanations are now ready for use
+2. **Paste your API key** in the "Gemini API Key" field
+3. **Click "Save API Key"**
+4. **Verify the green checkmark** appears showing "API key configured!"
 
-### 3. Start Explaining Text
+### 4. Start Explaining Text
 1. **Go to any webpage** (Wikipedia, news sites, documentation, etc.)
 2. **Select/highlight any text** with your mouse
-3. **Popup appears instantly** with explanation
+3. **Popup appears instantly** below your selection with explanation
 4. **Click × or outside** to close
 
-## AI Model Priority
+## Two Ways to Get Explanations
 
-The extension uses AI models in this order:
+### 🖱️ Method 1: Auto-Explain (Default)
+- Simply **select any text** on any webpage
+- Popup appears **automatically below** your selection
+- Works on text from 1 character to 5000 characters
 
-1. **🥇 Enhanced Local Model** (Best quality, works offline)
-2. **🥈 Chrome Built-in AI** (Good quality, Chrome only)
-3. **🥉 Fallback Dictionary** (Basic quality, always works)
+### 🖱️ Method 2: Right-Click Menu
+- **Select text** you want explained
+- **Right-click** on the selected text
+- **Choose "Explain with Explanium"** from the context menu
+- Popup appears with explanation
 
 ## Settings Options
 
-### General
-- **Enable Extension**: Turn on/off
-- **Auto-explain**: Show explanations on selection
-- **Long Text**: Handle selections over 50 characters
+### API Configuration
+- **Gemini API Key**: Your Google AI Studio API key
+- **Connection Status**: Shows if your API key is working
+- **Privacy Notice**: Confirms your key stays on your device
 
-### AI Models
-- **Activate Enhanced Model**: Enable comprehensive explanation system
-- **Deactivate Model**: Disable enhanced model to save resources
-- **Model Status**: View which AI sources are available
+### Behavior Settings
+- **Enable Extension**: Turn the entire extension on/off
+- **Auto-explain**: Show explanations automatically when text is selected
+- **Show on Long Text**: Allow explanations for text longer than 200 characters
+
+## Smart Popup Positioning
+
+The popup intelligently positions itself:
+- **Below selection**: Default position under your selected text
+- **Above selection**: If no room below, appears above
+- **Viewport aware**: Stays within screen bounds
+- **Never blocks content**: Positioned to avoid covering important text
 
 ## Tips for Best Results
 
-### ✅ Good Text to Explain
-- Single words: "algorithm", "hypothesis"
-- Short phrases: "machine learning", "peer review"
-- Technical terms: "API", "database"
-- Acronyms: "CPU", "HTML"
+### ✅ Great Text to Explain
+- **Single words**: "algorithm", "photosynthesis", "cryptocurrency"
+- **Short phrases**: "machine learning", "climate change", "quantum computing"
+- **Technical terms**: "API", "blockchain", "neural network"
+- **Acronyms**: "CPU", "HTML", "GDP", "DNA"
+- **Complex concepts**: "artificial intelligence", "supply chain management"
 
-### ❌ Avoid These
-- Very long paragraphs (>500 characters)
-- Text with lots of special characters
-- Code snippets (unless explaining specific terms)
+### ✅ Works Well With
+- **Academic papers**: Scientific terms and concepts
+- **News articles**: Current events and terminology
+- **Technical documentation**: Programming and engineering terms
+- **Legal documents**: Legal terminology and concepts
+- **Medical content**: Health and medical terms
+
+### ⚠️ Limitations
+- **Very long text**: Over 5000 characters may be truncated
+- **Code snippets**: Better to explain concepts than syntax
+- **Non-English text**: Optimized for English explanations
 
 ## Troubleshooting
 
 ### No popup appears?
-- Check if extension is enabled in chrome://extensions/
-- Try refreshing the webpage
-- Check if text is actually selected
+1. **Check extension status**: Ensure it's enabled in `chrome://extensions/`
+2. **Verify API key**: Click extension icon and check connection status
+3. **Refresh the webpage**: Sometimes needed after installation
+4. **Try different text**: Some text might be too short/long
+5. **Check settings**: Ensure "Auto-explain" is enabled
 
-### Activation fails?
-- Try refreshing the extension page
-- Restart the browser and try again
-- Check browser console for error messages
+### API key issues?
+1. **Verify key format**: Should be a long string starting with "AIza"
+2. **Check quotas**: Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to check usage
+3. **Test connection**: Extension will show connection status
+4. **Regenerate key**: Create a new API key if needed
+
+### Popup positioning issues?
+1. **Try different text**: Position depends on text location
+2. **Check zoom level**: Works best at 100% zoom
+3. **Scroll position**: Popup adapts to current viewport
+4. **Screen size**: Responsive design works on all screen sizes
 
 ### Slow responses?
-- Model might still be loading
-- Check settings page for model status
-- Restart browser if needed
+1. **Network connection**: Requires internet for API calls
+2. **API server status**: Google's servers might be busy
+3. **Text length**: Longer text takes more time to process
+4. **Rate limiting**: Too many requests might be throttled
 
 ## Browser Compatibility
 
 ### ✅ Fully Supported
-- **Chrome** (all versions)
-- **Microsoft Edge**
+- **Chrome** (v88+)
+- **Microsoft Edge** (Chromium-based)
 - **Brave Browser**
 - **Opera**
 - **Vivaldi**
 
-### ⚠️ Limited Support
-- **Firefox** (requires manifest conversion)
+### ❌ Not Supported
+- **Firefox** (different extension system)
 - **Safari** (different extension system)
+- **Internet Explorer** (outdated)
 
 ## Privacy & Security
 
-- 🔒 **No data sent online** (everything runs locally)
-- 🏠 **Everything runs locally** on your device
-- 🚫 **No tracking or analytics**
-- 💾 **Enhanced model stored locally** in browser storage
+### 🔒 Your Data is Safe
+- **API key stored locally**: Only on your device, never shared
+- **No data collection**: Extension doesn't track or store your activity
+- **Secure transmission**: All API calls use HTTPS encryption
+- **No external servers**: Only communicates with Google's official API
+- **Open source**: Full code transparency for security review
 
-## Advanced Usage
+### 🛡️ What Gets Sent
+- **Only selected text**: Sent to Google Gemini API for explanation
+- **No personal data**: No browsing history, cookies, or personal info
+- **No page content**: Only the specific text you select
+- **Temporary processing**: Google processes and returns explanation
 
-### Keyboard Shortcuts
-- **Select text** → Automatic explanation
-- **Click outside** → Close popup
-- **Extension icon** → Open settings
+## Performance & Usage
 
-### Storage Management
-- Enhanced model: ~2MB
-- Settings: <1KB
-- Total storage: ~2MB
+### 💾 Storage Usage
+- **Extension size**: ~500KB
+- **Settings storage**: <1KB
+- **No cached data**: Fresh explanations each time
 
-### Performance
-- **Memory usage**: 10-20MB typical
+### 🚀 Performance Impact
+- **Memory usage**: <5MB typical
 - **CPU impact**: Minimal (<1%)
 - **Battery impact**: Negligible
-- **Network**: Only during model download
+- **Network usage**: ~1-2KB per explanation
+
+### 📊 API Usage
+- **Free tier**: 15 requests per minute, 1500 per day
+- **Rate limiting**: Extension respects API limits
+- **Cost**: Free tier covers typical usage
+- **Monitoring**: Check usage at [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+## Advanced Features
+
+### 🎨 UI Features
+- **Dark theme**: Modern interface with Supabase green accents
+- **Smooth animations**: Popup appears with bounce effect
+- **Copy functionality**: Click copy button to save explanations
+- **Responsive design**: Works on all screen sizes
+
+### ⚙️ Technical Features
+- **Smart positioning**: Calculates optimal popup placement
+- **Error handling**: Graceful handling of API errors
+- **Response cleaning**: Removes AI response prefixes automatically
+- **Context menu**: Right-click integration for easy access
+
+## Keyboard Shortcuts
+
+- **Select text**: Mouse selection or Shift+Arrow keys
+- **Escape key**: Close popup
+- **Click outside**: Close popup
+- **Copy explanation**: Ctrl+C when popup is focused
 
 ---
 
-**Need help?** Check the main README.md or create an issue on GitHub! 
+**Need more help?** 
+- Check the main [README.md](README.md) for technical details
+- Review [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for specific issues
+- Create an issue on GitHub for support 

@@ -12,12 +12,19 @@ Follow these steps in order to identify and fix the problem:
 3. Verify it shows **"ON"** toggle (blue/enabled)
 4. Check if there are any error messages in red
 
-### 1.2 Page Refresh
+### 1.2 API Key Configuration
+1. **Click the Explanium extension icon** in toolbar
+2. **Check connection status**:
+   - ✅ **Green**: "API key configured! Gemma-3-1b-it model ready"
+   - ❌ **Red**: "No API key configured" or "Invalid API key"
+3. If red, enter your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+### 1.3 Page Refresh
 1. **Refresh the webpage** where you're testing
 2. Extensions only work on pages loaded AFTER they're installed/enabled
 3. Test on a simple webpage first (like Wikipedia)
 
-### 1.3 Extension Settings
+### 1.4 Extension Settings
 1. **Click the Explanium extension icon** in toolbar
 2. Verify settings:
    - ✅ **Enable Extension**: Should be ON
@@ -31,6 +38,7 @@ Follow these steps in order to identify and fix the problem:
 3. Try selecting these simple terms:
    - `API`
    - `CEO`
+   - `machine learning`
    - `25%`
 
 ## Step 3: Check Browser Console 🔍
@@ -44,14 +52,17 @@ Follow these steps in order to identify and fix the problem:
 ```
 🌐 Explanium content script loaded and available globally
 🚀 Explanium content script initializing...
-⚙️ Settings loaded: {enabled: true, autoExplain: true, longText: false}
+📋 Loaded settings from storage: {enabled: true, autoExplain: true, longText: false}
 ✅ Explanium content script initialized successfully
+[Background] Background script loaded and listener is active.
 ```
 
 ### ❌ Problem Messages (Bad):
 ```
 Content script loading error
 Extension context invalidated
+Failed to load API key
+Network error
 ```
 
 ### 🧪 When Selecting Text:
@@ -60,19 +71,58 @@ Extension context invalidated
 📝 Selected text: API
 📏 Text length: 3
 ✅ Text valid, creating popup...
+📊 Selection stored with timestamp: {text: "API...", rect: {...}}
 🔄 Creating loading popup...
+📍 Popup positioned at: {left: 100, top: 200, ...}
 ✅ Loading popup created and positioned
 🤖 Requesting explanation for: API
-📨 Background received message: {action: "explainText", text: "API"}
-🤖 Processing text explanation request for: API
-✅ Sending explanation response: {success: true, explanation: "...", source: "enhanced-model"}
-📡 Background response: {success: true, explanation: "...", source: "enhanced-model"}
+[Background] Received message type: EXPLAIN_TEXT
+[Background] Sending request to Gemma-3-1b-it API...
+[Background] Received response from Gemma-3-1b-it API
+[Background] Explanation result: Success
+📡 Background response: {success: true, explanation: "..."}
 ✅ Showing explanation: Application Programming Interface...
 💡 Showing explanation popup...
-✅ Explanation popup updated with content
 ```
 
 ## Step 4: Common Issues & Fixes 🛠️
+
+### Issue: "No API key configured" error
+**Problem**: Missing or invalid API key
+**Fix**: 
+1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Create a new API key (should start with "AIza")
+3. Copy and paste into extension settings
+4. Click "Save API Key"
+
+### Issue: "Invalid API key" error
+**Problem**: API key format is wrong or expired
+**Fix**:
+1. Verify API key format (starts with "AIza" and is ~40 characters)
+2. Check API key status at [Google AI Studio](https://aistudio.google.com/app/apikey)
+3. Generate a new API key if needed
+4. Ensure no extra spaces when copying
+
+### Issue: "API rate limit exceeded" error
+**Problem**: Too many requests in short time
+**Fix**:
+1. Wait 1-2 minutes before trying again
+2. Check your API usage at [Google AI Studio](https://aistudio.google.com/app/apikey)
+3. Free tier limits: 15 requests/minute, 1500 requests/day
+
+### Issue: Popup appears in wrong position
+**Problem**: Positioning calculation error
+**Fix**:
+1. Try different text on the page
+2. Check browser zoom level (works best at 100%)
+3. Scroll to different positions and test
+4. Refresh page and try again
+
+### Issue: "Extension context invalidated" error
+**Problem**: Extension was reloaded while page was open
+**Fix**:
+1. Refresh the webpage
+2. Extension needs page reload after updates
 
 ### Issue: No console messages at all
 **Problem**: Content script not loading
@@ -81,32 +131,13 @@ Extension context invalidated
 2. Reload the extension in `chrome://extensions/`
 3. Refresh the webpage
 
-### Issue: "Extension disabled" in console
-**Problem**: Settings are turned off
+### Issue: Network error
+**Problem**: Internet connection or API server issues
 **Fix**:
-1. Click extension icon
-2. Turn ON "Enable Extension" and "Auto-explain"
-3. Refresh webpage
-
-### Issue: "Text too long" message
-**Problem**: Selected text over 50 characters with longText disabled
-**Fix**:
-1. Try shorter text (like "API")
-2. Or enable "Show on Long Text" in settings
-
-### Issue: Content script loads but no popup appears
-**Problem**: CSS or positioning issue
-**Fix**: Check if popup exists but hidden:
-1. In console, type: `document.querySelector('.explanium-popup')`
-2. If it returns an element, there's a CSS issue
-3. Try: `document.querySelector('.explanium-popup').style.zIndex = '99999'`
-
-### Issue: Background script errors
-**Problem**: Communication failure
-**Fix**:
-1. Check service worker in `chrome://extensions/`
-2. Click "service worker" link to see errors
-3. Reload extension if needed
+1. Check internet connection
+2. Try again in a few minutes
+3. Check Google's API status page
+4. Verify firewall/proxy settings
 
 ## Step 5: Manual Testing 🧪
 
@@ -117,31 +148,54 @@ Try this in the browser console to manually test:
 console.log('Explanium loaded:', !!window.explanium);
 
 // Check settings
-window.explanium?.settings
+console.log('Settings:', window.explanium?.settings);
+
+// Check current selection
+console.log('Current selection:', window.explanium?.currentSelection);
 
 // Manually trigger explanation
 window.explanium?.requestExplanation('API');
 
 // Check if popup exists
-document.querySelector('.explanium-popup');
+console.log('Popup exists:', !!document.querySelector('.explanium-popup'));
+
+// Test API key status
+chrome.runtime.sendMessage({type: 'GET_STATUS'}, (response) => {
+  console.log('API Status:', response);
+});
 ```
 
-## Step 6: Reset Extension 🔄
+## Step 6: Context Menu Testing 🖱️
+
+If auto-explain isn't working, try the context menu:
+
+1. **Select any text** on a webpage
+2. **Right-click** on the selected text
+3. **Choose "Explain with Explanium"** from the menu
+4. Popup should appear with explanation
+
+If context menu doesn't appear:
+1. Check if text is actually selected
+2. Try different text
+3. Refresh page and try again
+
+## Step 7: Reset Extension 🔄
 
 If nothing works:
 
-1. **Disable extension** in `chrome://extensions/`
-2. **Clear extension data**:
+1. **Export your API key** (copy it somewhere safe)
+2. **Disable extension** in `chrome://extensions/`
+3. **Clear extension data**:
    - Right-click extension → "Remove"
    - Or clear in `chrome://settings/content/all` → find extension storage
-3. **Reload extension** (Load unpacked again)
-4. **Test on a fresh webpage**
+4. **Reload extension** (Load unpacked again)
+5. **Re-enter API key** and test
 
-## Step 7: Browser-Specific Issues 🌐
+## Step 8: Browser-Specific Issues 🌐
 
-### Chrome/Chromium:
+### Chrome/Chromium (Recommended):
 - Should work out of the box
-- Check for strict security settings
+- Ensure version 88+ for Manifest V3 support
 
 ### Microsoft Edge:
 - Enable "Allow extensions from other stores"
@@ -149,26 +203,75 @@ If nothing works:
 
 ### Brave Browser:
 - Disable "Shields" on test pages
-- Check privacy settings
+- Check privacy settings that might block API calls
 
 ### Opera:
 - Enable "Install Chrome extensions"
 - May need developer mode
 
+### Firefox/Safari:
+- **Not supported** - Extension uses Chrome-specific APIs
+
+## API-Specific Troubleshooting 🔑
+
+### Free Tier Limits:
+- **15 requests per minute**
+- **1500 requests per day**
+- **Rate limiting**: Wait if you hit limits
+
+### API Key Issues:
+- **Format**: Should start with "AIza" and be ~40 characters
+- **Permissions**: Ensure API key has Gemini API access
+- **Quotas**: Check usage at [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+### Common API Errors:
+- **401 Unauthorized**: Invalid API key
+- **429 Too Many Requests**: Rate limit exceeded
+- **400 Bad Request**: Invalid request format
+- **500 Server Error**: Google's server issues
+
 ## Expected Results ✅
 
 When working correctly:
-1. Select text → Console shows selection events
-2. Popup appears within 1 second
-3. Explanation loads with "[Enhanced AI Model]" tag
-4. Popup has close button and proper styling
+1. **Select text** → Console shows selection events
+2. **Popup appears** within 1-3 seconds below selected text
+3. **Explanation loads** with clean, formatted text
+4. **Copy button works** to copy explanation
+5. **Close button** or clicking outside closes popup
+
+## Performance Optimization 🚀
+
+If extension feels slow:
+1. **Shorter text**: Try explaining shorter phrases
+2. **Network speed**: Check internet connection
+3. **API server load**: Google's servers might be busy
+4. **Browser performance**: Close unnecessary tabs
 
 ## Get Help 💬
 
 If still not working, please share:
-1. **Browser type and version**
-2. **Console error messages** (copy/paste)
+1. **Browser type and version** (Chrome 88+ required)
+2. **Console error messages** (copy/paste from F12 console)
 3. **Extension settings screenshot**
-4. **Which text you're trying to select**
+4. **API key status** (configured/not configured, don't share actual key)
+5. **Which text you're trying to select**
+6. **Steps you've already tried**
+
+### Common Error Messages:
+
+**"Extension context invalidated"**
+→ Refresh the webpage
+
+**"No API key configured"**
+→ Add API key in extension settings
+
+**"API rate limit exceeded"**
+→ Wait 1-2 minutes, check usage limits
+
+**"Network error"**
+→ Check internet connection
+
+**"Invalid API key"**
+→ Verify API key format and permissions
 
 The debugging logs will help identify exactly where the issue is occurring! 
