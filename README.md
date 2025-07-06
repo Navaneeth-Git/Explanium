@@ -13,6 +13,15 @@ A powerful Chromium extension that provides instant explanations for any selecte
 - 📱 **Responsive Design**: Works perfectly on all screen sizes and websites
 - 🌐 **Universal Compatibility**: Works on any website with selected text
 
+
+## ScreenShots
+
+![Screenshot 2025-07-05 235010](https://github.com/user-attachments/assets/76687efb-94a2-4b11-8ab7-2afc77184225)
+![Screenshot 2025-07-05 235037](https://github.com/user-attachments/assets/b484e23e-5b48-4c6c-a527-eedebf50b4ee)
+![Screenshot 2025-07-05 235137](https://github.com/user-attachments/assets/6a568394-db81-4fbd-818d-a87e43fc8fd9)
+![Screenshot 2025-07-05 235212](https://github.com/user-attachments/assets/a396ac95-2563-40b5-a724-3b9c22d8b62d)
+
+
 ## 🚀 Quick Start
 
 ### Installation
@@ -171,3 +180,6 @@ Open these files in your browser to test various text selection scenarios.
 - **CPU Impact**: Minimal (< 1% on modern devices)
 - **Network Usage**: ~1-2KB per explanation request
 - **Response Time**: Typically 1-3 seconds depending on network 
+
+  ## Like this Project?
+  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/quackityduck) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/navaneethnandakumar) 
