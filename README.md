@@ -1,18 +1,233 @@
 # 🚀 Explanium - AI-Powered Text Explainer
 
-A powerful Chromium extension that provides instant explanations for any selected text using Google's Gemini AI. Get fast, accurate explanations with a beautiful dark interface and privacy-first design.
+A powerful Chrome extension that provides instant explanations for any selected text using Google's Gemini AI. Get fast, accurate explanations with a beautiful dark interface, advanced caching system, and privacy-first design.
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Coming%20Soon-4285f4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore)
+[![GitHub](https://img.shields.io/badge/GitHub-Open%20Source-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Navaneeth-Git/Explanium)
+[![Privacy Policy](https://img.shields.io/badge/Privacy-Protected-green?style=for-the-badge&logo=shield&logoColor=white)](https://navaneeth-git.github.io/Explanium/privacy-policy.html)
 
 ## ✨ Key Features
 
 - 🤖 **Google Gemini AI**: Powered by Google's Gemma-3-1b-it model for fast, accurate explanations
-- ⚡ **Instant Explanations**: Select any text and get explanations in 2-3 sentences
+- ⚡ **Advanced Caching**: Smart caching system for instant repeat explanations (5000+ entries)
+- 🚀 **Lightning Fast**: Initial explanations in 2-3 seconds, cached responses are instant
 - 🎯 **Smart Positioning**: Popup appears directly below selected text, never blocks content
 - 🖱️ **Right-Click Support**: Context menu option "Explain with Explanium" for selected text
-- 🎨 **Beautiful Dark UI**: Modern interface with Supabase green accents and smooth animations
+- 🎨 **Beautiful Dark UI**: Modern interface with smooth animations and professional design
 - 🔒 **Privacy First**: Your API key stays on your device, only sent to Google's official API
 - 📱 **Responsive Design**: Works perfectly on all screen sizes and websites
 - 🌐 **Universal Compatibility**: Works on any website with selected text
+- 📊 **Cache Analytics**: View hit rates, API calls saved, and cache management
 
+## 🎯 Why Choose Explanium?
+
+### **Instant Performance**
+- **First time**: Fast AI explanation from Google Gemini
+- **Repeat selections**: ⚡ Instant responses from smart cache
+- **Smart matching**: Cached explanations work for similar text
+
+### **Cost Effective**
+- **Reduce API costs**: Cached responses save API calls
+- **Track savings**: See exactly how many API calls you've saved
+- **Efficient usage**: 5000+ explanation cache capacity
+
+### **Professional Quality**
+- **Clean explanations**: AI response cleaning removes unnecessary prefixes
+- **Consistent formatting**: Markdown support for rich text display
+- **Copy functionality**: One-click copy of explanations
+- **Error handling**: Graceful handling of all edge cases
+
+## 🚀 Quick Start
+
+### Installation (Development)
+
+1. **Download** the extension files from this repository
+2. **Open Chrome** and go to `chrome://extensions/`
+3. **Enable Developer Mode** (toggle in top right)
+4. **Click "Load unpacked"** and select the Explanium folder
+5. **Get your API key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
+6. **Configure the extension** by clicking the extension icon and entering your API key
+
+### Chrome Web Store Installation (Coming Soon)
+
+The extension will be available on the Chrome Web Store soon! Features:
+- One-click installation
+- Automatic updates
+- Enhanced security
+- Verified distribution
+
+## 🔧 Configuration
+
+### API Setup
+1. **Visit [Google AI Studio](https://aistudio.google.com/app/apikey)**
+2. **Sign in** with your Google account
+3. **Create a new API key** (free tier available)
+4. **Copy the API key**
+5. **Open extension settings** and paste your API key
+6. **Verify connection** shows green checkmark
+
+### Extension Settings
+- **Extension Enabled**: Turn the entire extension on/off
+- **Auto-explain**: Show explanations automatically when text is selected
+- **Show on Long Text**: Allow explanations for text longer than 200 characters
+
+### Cache Management
+- **View Statistics**: Cache size, hit rate, API calls saved
+- **Refresh Stats**: Update cache statistics
+- **Clear Cache**: Remove all cached explanations
+
+## 💡 How to Use
+
+### **Method 1: Auto-Explain (Default)**
+1. **Select any text** on any webpage
+2. **Popup appears automatically** below your selection
+3. **⚡ Lightning bolt** indicates cached (instant) responses
+4. **Click copy button** to copy explanation
+
+### **Method 2: Right-Click Menu**
+1. **Select text** you want explained
+2. **Right-click** on the selected text
+3. **Choose "Explain with Explanium"** from context menu
+4. **Popup appears** with explanation
+
+## 🎨 UI Features
+
+### Smart Popup Design
+- **Intelligent positioning**: Never blocks your content
+- **Responsive layout**: Adapts to screen size and scroll position
+- **Cache indicators**: ⚡ shows when response is instant from cache
+- **Copy functionality**: One-click explanation copying
+- **Keyboard shortcuts**: ESC to close popup
+
+### Settings Interface
+- **Dark theme**: Professional design with green accents
+- **Real-time feedback**: Immediate confirmation of setting changes
+- **API status**: Clear indication of configuration status
+- **Cache statistics**: Detailed performance metrics
+- **Support links**: Easy access to help and development support
+
+## 🔒 Privacy & Security
+
+### **What We DON'T Collect**
+- Personal information (name, email, etc.)
+- Browsing history or website data
+- Location or device information
+- Usage analytics or tracking data
+
+### **What We DO Process**
+- **Selected text only**: Sent to Google Gemini API for explanations
+- **Local storage**: Settings and cache stored on your device
+- **API key**: Stored securely using Chrome's storage API
+
+### **Security Features**
+- **HTTPS only**: All API communications encrypted
+- **Local storage**: No central database with user data
+- **Minimal permissions**: Only requests necessary permissions
+- **Open source**: Full code transparency
+
+[📄 **View Full Privacy Policy**](https://navaneeth-git.github.io/Explanium/privacy-policy.html)
+
+## 🛠️ Technical Details
+
+### **Architecture**
+- **Manifest V3**: Latest Chrome extension standard
+- **Content Scripts**: Text selection and popup management
+- **Background Service**: API calls and cache management
+- **Local Storage**: Settings and explanation caching
+
+### **Performance**
+- **Cache System**: 5000+ explanations stored locally
+- **Smart Cleanup**: Automatic expiration and size management
+- **Optimized API**: Minimal requests with intelligent caching
+- **Memory Efficient**: <5MB typical memory usage
+
+### **Compatibility**
+- **Chrome**: Version 88+ (Manifest V3 support)
+- **Chromium Browsers**: Edge, Brave, Opera, Vivaldi
+- **Text Sources**: Works on any selectable text
+- **Websites**: Universal compatibility
+
+## 📊 Cache System
+
+### **Advanced Caching Features**
+- **Large Capacity**: 5000+ cached explanations
+- **Smart Matching**: Normalized text keys for better hit rates
+- **Automatic Cleanup**: 7-day expiration with LRU eviction
+- **Performance Tracking**: Hit rate and API savings metrics
+
+### **Cache Benefits**
+- **Instant Responses**: Repeat explanations appear immediately
+- **Cost Savings**: Reduced API calls for repeated content
+- **Offline Capability**: Cached explanations work without internet
+- **User Control**: View stats and clear cache as needed
+
+## 🎯 Browser Compatibility
+
+### ✅ **Fully Supported**
+- **Chrome** (v88+)
+- **Microsoft Edge** (Chromium-based)
+- **Brave Browser**
+- **Opera**
+- **Vivaldi**
+
+### ❌ **Not Supported**
+- **Firefox** (different extension system)
+- **Safari** (different extension system)
+- **Internet Explorer** (outdated)
+
+## 📈 Performance Metrics
+
+### **Typical Performance**
+- **First explanation**: 2-3 seconds
+- **Cached explanations**: <100ms (instant)
+- **Memory usage**: <5MB
+- **Storage usage**: <10MB for full cache
+
+### **API Efficiency**
+- **Response cleaning**: Removes AI prefixes automatically
+- **Smart caching**: Reduces redundant API calls
+- **Error handling**: Graceful degradation on failures
+- **Rate limiting**: Respects API quotas
+
+## 🛡️ Chrome Web Store Ready
+
+### **Compliance Features**
+- **Minimal Permissions**: Only requests necessary access
+- **Privacy Policy**: Comprehensive privacy documentation
+- **Content Security**: No inline scripts or unsafe practices
+- **User Controls**: Clear settings and data management
+
+### **Quality Assurance**
+- **Extensive Testing**: Tested on major websites and edge cases
+- **Error Handling**: Comprehensive error recovery
+- **Performance**: Optimized for speed and efficiency
+- **Documentation**: Complete user guides and troubleshooting
+
+## 💖 Support the Project
+
+Explanium is an open source project developed by **Navaneeth**. If you find it helpful:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/quackityduck)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/navaneethnandakumar)
+
+## 📞 Support & Feedback
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/Navaneeth-Git/Explanium/issues)
+- **Privacy Policy**: [View our privacy policy](https://navaneeth-git.github.io/Explanium/privacy-policy.html)
+- **Email Support**: Available for critical issues
+
+## 📄 Documentation
+
+- **[Usage Guide](USAGE.md)**: Detailed usage instructions
+- **[Troubleshooting](TROUBLESHOOTING.md)**: Common issues and solutions
+- **[Test Results](TEST_RESULTS.md)**: Quality assurance testing
+- **[Privacy Policy](https://navaneeth-git.github.io/Explanium/privacy-policy.html)**: Data handling practices
+
+---
+
+**Ready for Chrome Web Store submission** 🚀 | **Privacy-first design** 🔒 | **Open source** 💻
+
+Made with ❤️ by [Navaneeth](https://github.com/Navaneeth-Git)
 
 ## ScreenShots
 
@@ -20,166 +235,3 @@ A powerful Chromium extension that provides instant explanations for any selecte
 ![Screenshot 2025-07-05 235037](https://github.com/user-attachments/assets/b484e23e-5b48-4c6c-a527-eedebf50b4ee)
 ![Screenshot 2025-07-05 235137](https://github.com/user-attachments/assets/6a568394-db81-4fbd-818d-a87e43fc8fd9)
 ![Screenshot 2025-07-05 235212](https://github.com/user-attachments/assets/a396ac95-2563-40b5-a724-3b9c22d8b62d)
-
-
-## 🚀 Quick Start
-
-### Installation
-
-1. **Clone or Download** this repository
-2. **Open Chrome** and go to `chrome://extensions/`
-3. **Enable Developer Mode** (toggle in top right)
-4. **Click "Load unpacked"** and select the extension folder
-5. **Get your API key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
-6. **Configure the extension** by clicking the extension icon and entering your API key
-
-### Usage
-
-**Two ways to get explanations:**
-
-1. **Auto-explain**: Simply select any text on any webpage → popup appears automatically
-2. **Right-click menu**: Select text → right-click → "Explain with Explanium"
-
-The popup will appear directly below your selected text with a clean, fast explanation.
-
-## 🔧 Configuration
-
-Click the extension icon to access settings:
-
-### API Setup
-- **Gemini API Key**: Enter your Google AI Studio API key
-- **Connection Status**: See if your API key is working
-- **Privacy Notice**: Your key is stored locally and never shared
-
-### Behavior Settings
-- **Enable Extension**: Turn the extension on/off
-- **Auto-explain**: Show explanations automatically on text selection
-- **Show on Long Text**: Explain selections longer than 200 characters (supports up to 5000 chars)
-
-## 🤖 AI Technology
-
-### Google Gemma-3-1b-it Model
-- **Fast & Efficient**: Optimized for quick responses with low latency
-- **High Quality**: Advanced language understanding for accurate explanations
-- **Context Aware**: Understands complex text and provides relevant explanations
-- **Token Efficient**: Configured for concise 2-3 sentence explanations
-
-### Smart Features
-- **Response Cleaning**: Automatically removes AI response prefixes for clean explanations
-- **Error Handling**: Graceful handling of API errors with user-friendly messages
-- **Rate Limiting**: Respects API limits with proper error messages
-- **Conversation Context**: Uses conversation history for better understanding
-
-## 📋 Requirements
-
-- **Chrome Browser**: Version 88+ (Manifest V3 support)
-- **Google AI Studio API Key**: Free tier available at [aistudio.google.com](https://aistudio.google.com/app/apikey)
-- **Internet Connection**: Required for API calls to Google's servers
-
-## 🛠️ Development
-
-### Project Structure
-```
-Explanium/
-├── manifest.json          # Extension configuration
-├── content.js            # Text selection and popup handling
-├── content.css           # Popup styling (dark theme)
-├── background.js         # Google Gemini API integration
-├── options.html          # Settings page
-├── options.js            # Settings logic
-├── icons/                # Extension icons
-│   ├── icon.svg         # SVG lightbulb icon
-│   ├── icon16.png       # 16x16 icon
-│   ├── icon48.png       # 48x48 icon
-│   └── icon128.png      # 128x128 icon
-└── README.md            # This file
-```
-
-### Key Components
-
-1. **Content Script** (`content.js`): Handles text selection, popup positioning, and UI
-2. **Background Service** (`background.js`): Manages Google Gemini API calls and responses
-3. **Popup Interface** (`content.css`): Beautiful dark theme with Supabase green accents
-4. **Options Page** (`options.html/js`): API key management and extension settings
-
-### Security Features
-
-- **No Hardcoded Keys**: All API keys stored securely in Chrome sync storage
-- **XSS Protection**: All user content properly escaped before display
-- **HTTPS Only**: All API calls use secure HTTPS endpoints
-- **Input Validation**: Proper validation of all user inputs
-- **Error Handling**: Comprehensive error handling without exposing sensitive data
-
-## 🔍 How It Works
-
-1. **Text Selection**: Content script detects text selection via mouseup/keyup events
-2. **Smart Positioning**: Calculates optimal popup position below selected text
-3. **API Request**: Background script sends request to Google Gemini API
-4. **Response Processing**: Cleans and formats AI response for display
-5. **Popup Display**: Shows explanation in positioned popup with copy functionality
-
-## 🎨 Design Philosophy
-
-- **User-Centric**: Popup appears where users expect it, never blocking content
-- **Privacy-First**: No data collection, API keys stored locally
-- **Performance-Focused**: Fast responses with minimal resource usage
-- **Accessibility**: Keyboard navigation and proper ARIA labels
-- **Modern UI**: Clean dark theme with smooth animations
-
-## 🔒 Privacy & Security
-
-- **Local Storage**: API keys stored only on your device using Chrome sync
-- **No Tracking**: No analytics, telemetry, or user data collection
-- **Secure Communication**: All API calls use HTTPS with proper authentication
-- **Minimal Permissions**: Only requests necessary permissions for functionality
-- **Open Source**: Full transparency with public code review
-
-## 📝 License
-
-MIT License - feel free to modify and distribute!
-
-## 🤝 Contributing
-
-Contributions welcome! Areas for improvement:
-
-- Additional AI model support
-- Enhanced UI animations
-- Better error handling
-- Performance optimizations
-- Internationalization support
-
-## 🐛 Troubleshooting
-
-### Extension not working?
-- Check if it's enabled in `chrome://extensions/`
-- Refresh the webpage after installing
-- Verify your API key is entered correctly
-
-### No explanations appearing?
-- Check extension settings (click extension icon)
-- Verify text selection (try different text)
-- Check browser console for errors (F12 → Console)
-
-### API errors?
-- Verify your API key at [Google AI Studio](https://aistudio.google.com/app/apikey)
-- Check your API quota and usage limits
-- Ensure stable internet connection
-
-## 🧪 Testing
-
-The extension includes test files for development:
-
-- `debug-check.html`: Basic functionality testing
-- `advanced-test.html`: Advanced feature testing
-
-Open these files in your browser to test various text selection scenarios.
-
-## 📊 Performance
-
-- **Memory Usage**: < 5MB typical usage
-- **CPU Impact**: Minimal (< 1% on modern devices)
-- **Network Usage**: ~1-2KB per explanation request
-- **Response Time**: Typically 1-3 seconds depending on network 
-
-  ## Like this Project?
-  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/quackityduck) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/navaneethnandakumar) 

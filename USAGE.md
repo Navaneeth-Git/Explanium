@@ -1,185 +1,233 @@
 # 🚀 Explanium Usage Guide
 
-## Quick Start
+Complete guide for using Explanium - AI-powered text explanations with advanced caching.
 
-### 1. Install the Extension
+## 📦 Installation Options
+
+### 🌐 Chrome Web Store (Recommended - Coming Soon)
+1. **Visit Chrome Web Store** (link will be available soon)
+2. **Click "Add to Chrome"**
+3. **Confirm installation**
+4. **Setup API key** (see configuration below)
+
+### 💻 Developer Installation (Current)
 1. **Download/Clone** the Explanium repository
 2. **Open Chrome** and go to `chrome://extensions/`
 3. **Enable "Developer mode"** (toggle in top right)
 4. **Click "Load unpacked"** and select the Explanium folder
 5. **Pin the extension** to your toolbar for easy access
 
-### 2. Get Your API Key
+## 🔑 API Configuration
+
+### Get Your Google Gemini API Key
 1. **Visit [Google AI Studio](https://aistudio.google.com/app/apikey)**
 2. **Sign in** with your Google account
-3. **Create a new API key** (free tier available)
+3. **Create a new API key** (free tier available: 15 requests/minute, 1500/day)
 4. **Copy the API key** for the next step
 
-### 3. Configure the Extension
-1. **Click the extension icon** in your browser toolbar
-2. **Paste your API key** in the "Gemini API Key" field
+### Configure the Extension
+1. **Click the Explanium icon** in your browser toolbar
+2. **Paste your API key** in the "API Key" field
 3. **Click "Save API Key"**
-4. **Verify the green checkmark** appears showing "API key configured!"
+4. **Verify the green checkmark** shows "API key configured!"
 
-### 4. Start Explaining Text
+## 💡 How to Get Explanations
+
+### 🖱️ Method 1: Auto-Explain (Default & Fastest)
 1. **Go to any webpage** (Wikipedia, news sites, documentation, etc.)
-2. **Select/highlight any text** with your mouse
-3. **Popup appears instantly** below your selection with explanation
-4. **Click × or outside** to close
-
-## Two Ways to Get Explanations
-
-### 🖱️ Method 1: Auto-Explain (Default)
-- Simply **select any text** on any webpage
-- Popup appears **automatically below** your selection
-- Works on text from 1 character to 5000 characters
+2. **Select/highlight any text** with your mouse (1-5000 characters)
+3. **Popup appears instantly** below your selection
+4. **⚡ Lightning bolt** indicates cached (instant) responses
+5. **Click × or outside** to close, or **copy button** to copy explanation
 
 ### 🖱️ Method 2: Right-Click Menu
-- **Select text** you want explained
-- **Right-click** on the selected text
-- **Choose "Explain with Explanium"** from the context menu
-- Popup appears with explanation
+1. **Select text** you want explained
+2. **Right-click** on the selected text
+3. **Choose "Explain with Explanium"** from the context menu
+4. **Popup appears** with explanation
 
-## Settings Options
+## ⚡ Advanced Caching System
+
+### How Caching Works
+- **First Time**: Text sent to Google Gemini API (~2-3 seconds)
+- **Repeat Selections**: ⚡ Instant response from local cache (<100ms)
+- **Smart Matching**: Similar text variations use cached results
+- **Large Capacity**: 5000+ explanations stored locally
+
+### Cache Benefits
+- **Instant Speed**: Repeated explanations appear immediately
+- **Cost Savings**: Reduces API calls and quota usage
+- **Offline Access**: Cached explanations work without internet
+- **Performance**: Dramatically improves user experience
+
+### Cache Indicators
+- **⚡ Lightning Bolt**: Appears when explanation comes from cache
+- **No Indicator**: Fresh explanation from API
+- **Cache Stats**: View hit rate and savings in settings
+
+## ⚙️ Extension Settings
+
+### Access Settings
+- **Click the Explanium extension icon** in toolbar
+- **Or right-click extension icon** → "Options"
+
+### Behavior Settings
+- **✅ Enable Extension**: Turn the entire extension on/off
+- **✅ Auto-explain**: Show explanations automatically when text is selected
+- **✅ Show on Long Text**: Allow explanations for text longer than 200 characters
 
 ### API Configuration
 - **Gemini API Key**: Your Google AI Studio API key
 - **Connection Status**: Shows if your API key is working
-- **Privacy Notice**: Confirms your key stays on your device
+- **Model Info**: Displays current AI model (Gemma-3-1b-it)
 
-### Behavior Settings
-- **Enable Extension**: Turn the entire extension on/off
-- **Auto-explain**: Show explanations automatically when text is selected
-- **Show on Long Text**: Allow explanations for text longer than 200 characters
+### Cache Management
+- **Cache Size**: Shows current cache usage (X / 5000)
+- **Hit Rate**: Percentage of requests served from cache
+- **API Calls Saved**: Number of API requests avoided through caching
+- **Refresh Stats**: Update cache statistics
+- **Clear Cache**: Remove all cached explanations
 
-## Smart Popup Positioning
+## 🎯 Smart Popup Features
 
-The popup intelligently positions itself:
-- **Below selection**: Default position under your selected text
-- **Above selection**: If no room below, appears above
-- **Viewport aware**: Stays within screen bounds
-- **Never blocks content**: Positioned to avoid covering important text
+### Intelligent Positioning
+The popup automatically positions itself for optimal viewing:
 
-## Tips for Best Results
+1. **Below Selection**: Appears directly under selected text
+2. **Viewport Awareness**: Adjusts if near screen edges
+3. **Scroll Adaptation**: Maintains position during scrolling
+4. **Never Blocks**: Positioned to avoid covering important content
 
-### ✅ Great Text to Explain
-- **Single words**: "algorithm", "photosynthesis", "cryptocurrency"
-- **Short phrases**: "machine learning", "climate change", "quantum computing"
-- **Technical terms**: "API", "blockchain", "neural network"
-- **Acronyms**: "CPU", "HTML", "GDP", "DNA"
-- **Complex concepts**: "artificial intelligence", "supply chain management"
+### Interactive Elements
+- **Copy Button**: One-click copying of explanations
+- **Close Button**: Manual popup dismissal
+- **Click Outside**: Automatic closure when clicking elsewhere
+- **ESC Key**: Keyboard shortcut to close popup
 
-### ✅ Works Well With
-- **Academic papers**: Scientific terms and concepts
-- **News articles**: Current events and terminology
-- **Technical documentation**: Programming and engineering terms
-- **Legal documents**: Legal terminology and concepts
-- **Medical content**: Health and medical terms
+## 🌐 Website Compatibility
 
-### ⚠️ Limitations
-- **Very long text**: Over 5000 characters may be truncated
-- **Code snippets**: Better to explain concepts than syntax
-- **Non-English text**: Optimized for English explanations
+### ✅ Works Great On
+- **Wikipedia**: Articles and reference content
+- **News Sites**: Articles and breaking news
+- **Documentation**: Technical guides and manuals
+- **Educational Sites**: Academic content and courses
+- **Social Media**: Posts and comments (where text is selectable)
+- **Forums**: Discussion threads and Q&A
+- **E-commerce**: Product descriptions and reviews
+- **Blogs**: Articles and opinion pieces
 
-## Troubleshooting
+### 📱 Responsive Design
+- **Desktop**: Full-featured experience
+- **Laptops**: Optimized for smaller screens
+- **Large Displays**: Scales appropriately
+- **High DPI**: Crisp display on retina screens
 
-### No popup appears?
-1. **Check extension status**: Ensure it's enabled in `chrome://extensions/`
-2. **Verify API key**: Click extension icon and check connection status
-3. **Refresh the webpage**: Sometimes needed after installation
-4. **Try different text**: Some text might be too short/long
-5. **Check settings**: Ensure "Auto-explain" is enabled
+## 🚀 Performance Optimization
 
-### API key issues?
-1. **Verify key format**: Should be a long string starting with "AIza"
-2. **Check quotas**: Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to check usage
-3. **Test connection**: Extension will show connection status
-4. **Regenerate key**: Create a new API key if needed
+### For Best Performance
+1. **Enable Caching**: Keep auto-explain enabled for best caching
+2. **Reasonable Text**: Select 1-200 words for optimal response time
+3. **Stable Connection**: Ensure good internet for initial API calls
+4. **Updated Browser**: Use Chrome 88+ for best compatibility
 
-### Popup positioning issues?
-1. **Try different text**: Position depends on text location
-2. **Check zoom level**: Works best at 100% zoom
-3. **Scroll position**: Popup adapts to current viewport
-4. **Screen size**: Responsive design works on all screen sizes
+### Performance Metrics
+- **Initial Load**: Extension loads in <100ms
+- **First Explanation**: 2-3 seconds (API dependent)
+- **Cached Explanation**: <100ms (instant)
+- **Memory Usage**: <5MB typical
+- **Storage Usage**: <10MB for full cache
 
-### Slow responses?
-1. **Network connection**: Requires internet for API calls
-2. **API server status**: Google's servers might be busy
-3. **Text length**: Longer text takes more time to process
-4. **Rate limiting**: Too many requests might be throttled
+## 🛠️ Troubleshooting Quick Fixes
 
-## Browser Compatibility
+### Popup Not Showing
+1. **Check extension is enabled** in chrome://extensions/
+2. **Verify API key** is configured in settings
+3. **Refresh the webpage** after installation
+4. **Try selecting different text** (avoid images/videos)
 
-### ✅ Fully Supported
-- **Chrome** (v88+)
-- **Microsoft Edge** (Chromium-based)
-- **Brave Browser**
-- **Opera**
-- **Vivaldi**
+### Slow Responses
+1. **Check internet connection**
+2. **Verify API key** is working in settings
+3. **Try shorter text** selections
+4. **Check Google API status**
 
-### ❌ Not Supported
-- **Firefox** (different extension system)
-- **Safari** (different extension system)
-- **Internet Explorer** (outdated)
+### Cache Issues
+1. **Refresh cache stats** in settings
+2. **Clear cache** if it's full or corrupted
+3. **Check available storage** in browser
 
-## Privacy & Security
+## 🔒 Privacy & Data Handling
 
-### 🔒 Your Data is Safe
-- **API key stored locally**: Only on your device, never shared
-- **No data collection**: Extension doesn't track or store your activity
-- **Secure transmission**: All API calls use HTTPS encryption
-- **No external servers**: Only communicates with Google's official API
-- **Open source**: Full code transparency for security review
+### What's Processed
+- **Selected Text Only**: Only the text you highlight is sent to Google
+- **Local Storage**: Settings and cache stored on your device
+- **No Tracking**: No analytics or user behavior tracking
 
-### 🛡️ What Gets Sent
-- **Only selected text**: Sent to Google Gemini API for explanation
-- **No personal data**: No browsing history, cookies, or personal info
-- **No page content**: Only the specific text you select
-- **Temporary processing**: Google processes and returns explanation
+### Data Flow
+1. **Text Selection** → Cache check locally
+2. **Cache Miss** → Secure HTTPS request to Google Gemini API
+3. **API Response** → Cached locally + displayed
+4. **Cache Hit** → Instant display from local storage
 
-## Performance & Usage
+### Your Control
+- **API Key**: Stored securely on your device only
+- **Cache Management**: Clear or view cache anytime
+- **Extension Control**: Enable/disable all functionality
+- **Data Portability**: Uninstall removes all data
 
-### 💾 Storage Usage
-- **Extension size**: ~500KB
-- **Settings storage**: <1KB
-- **No cached data**: Fresh explanations each time
+## 💎 Pro Tips
 
-### 🚀 Performance Impact
-- **Memory usage**: <5MB typical
-- **CPU impact**: Minimal (<1%)
-- **Battery impact**: Negligible
-- **Network usage**: ~1-2KB per explanation
+### Maximize Cache Efficiency
+- **Select consistent text**: Similar selections benefit from caching
+- **Use frequently**: Regular use builds up useful cache
+- **Check hit rate**: Monitor cache performance in settings
 
-### 📊 API Usage
-- **Free tier**: 15 requests per minute, 1500 per day
-- **Rate limiting**: Extension respects API limits
-- **Cost**: Free tier covers typical usage
-- **Monitoring**: Check usage at [Google AI Studio](https://aistudio.google.com/app/apikey)
+### Best Text Selection
+- **Complete sentences**: Better context for AI
+- **Avoid very long text**: Keep under 200 words for speed
+- **Technical terms**: Great for acronyms and jargon
+- **Foreign phrases**: Excellent for translations and meanings
 
-## Advanced Features
+### Keyboard Shortcuts
+- **ESC**: Close popup quickly
+- **Ctrl+C**: Copy explanation (after clicking copy button)
+- **Right-click**: Access context menu option
 
-### 🎨 UI Features
-- **Dark theme**: Modern interface with Supabase green accents
-- **Smooth animations**: Popup appears with bounce effect
-- **Copy functionality**: Click copy button to save explanations
-- **Responsive design**: Works on all screen sizes
+## 📊 Understanding Cache Statistics
 
-### ⚙️ Technical Features
-- **Smart positioning**: Calculates optimal popup placement
-- **Error handling**: Graceful handling of API errors
-- **Response cleaning**: Removes AI response prefixes automatically
-- **Context menu**: Right-click integration for easy access
+### Cache Metrics Explained
+- **Cache Size**: Number of explanations stored (max 5000)
+- **Hit Rate**: Percentage of instant responses vs API calls
+- **API Calls Saved**: Money and quota saved through caching
 
-## Keyboard Shortcuts
+### Optimal Performance
+- **Good Hit Rate**: 30%+ indicates effective caching
+- **Cache Usage**: Higher usage = more instant responses
+- **Regular Cleanup**: Cache auto-cleans after 7 days
 
-- **Select text**: Mouse selection or Shift+Arrow keys
-- **Escape key**: Close popup
-- **Click outside**: Close popup
-- **Copy explanation**: Ctrl+C when popup is focused
+## 🎯 Advanced Usage Scenarios
+
+### For Students
+- **Research Papers**: Quick explanations of complex terms
+- **Technical Reading**: Understand difficult concepts
+- **Language Learning**: Explain phrases and idioms
+
+### For Professionals
+- **Documentation**: Quickly understand technical terms
+- **Industry Jargon**: Decode specialized vocabulary
+- **News Analysis**: Understand complex topics quickly
+
+### For General Users
+- **Web Browsing**: Understand unfamiliar terms
+- **Social Media**: Decode trending topics and slang
+- **Shopping**: Understand product specifications
 
 ---
 
-**Need more help?** 
-- Check the main [README.md](README.md) for technical details
-- Review [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for specific issues
-- Create an issue on GitHub for support 
+## 🆘 Need Help?
+
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)**: Detailed problem-solving
+- **[GitHub Issues](https://github.com/Navaneeth-Git/Explanium/issues)**: Report bugs
+- **[Privacy Policy](https://navaneeth-git.github.io/Explanium/privacy-policy.html)**: Data practices
+
+**Enjoy instant AI explanations!** ⚡ 
