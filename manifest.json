@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Explanium - Instant Text Explainer",
   "version": "6.0.0",
-  "description": "Get instant AI explanations for any selected text using Google's Gemini AI. Features smart caching for lightning-fast repeat explanations and reduced API usage. Perfect for students, researchers, and curious minds.",
+  "description": "Get instant AI explanations for any selected text using Google's Gemini AI. Smart caching for fast repeat explanations.",
   
   "permissions": [
     "activeTab",
