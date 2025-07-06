@@ -14,6 +14,7 @@ class ExplaniumOptions {
     this.setupEventListeners();
     this.updateUI();
     this.checkStatus();
+    this.loadCacheStats();
   }
   
   async loadSettings() {
@@ -90,6 +91,25 @@ class ExplaniumOptions {
 
     // Load existing API key
     this.loadApiKey();
+
+    // Cache management buttons
+    const refreshStatsBtn = document.getElementById('refreshCacheStats');
+    const clearCacheBtn = document.getElementById('clearCache');
+
+    if (refreshStatsBtn) {
+      refreshStatsBtn.addEventListener('click', () => {
+        this.refreshCacheStats();
+      });
+    }
+
+    if (clearCacheBtn) {
+      clearCacheBtn.addEventListener('click', () => {
+        this.clearCache();
+      });
+    }
+
+    // Load cache stats on initialization
+    this.loadCacheStats();
   }
 
   async loadApiKey() {
@@ -150,7 +170,15 @@ class ExplaniumOptions {
 
       if (response.hasApiKey) {
         statusDiv.className = 'status success';
-        statusText.textContent = `✅ API key configured! ${response.model || 'Gemma-3-1b-it'} model ready for explanations.`;
+        
+        // Include cache info in status if available
+        const cacheInfo = response.cache ? ` | Cache: ${response.cache.cacheSize} entries, ${response.cache.hitRate} hit rate` : '';
+        statusText.textContent = `✅ API key configured! ${response.model || 'Gemma-3-1b-it'} model ready for explanations.${cacheInfo}`;
+        
+        // Update cache stats if available
+        if (response.cache) {
+          this.updateCacheUI(response.cache);
+        }
       } else {
         statusDiv.className = 'status error';
         statusText.textContent = '❌ No API key configured. Please add your Google Gemini API key above.';
@@ -179,6 +207,90 @@ class ExplaniumOptions {
     setTimeout(() => {
       messageDiv.classList.add('hidden');
     }, 5000);
+  }
+
+  async loadCacheStats() {
+    try {
+      const response = await chrome.runtime.sendMessage({ type: 'GET_CACHE_STATS' });
+      this.updateCacheUI(response);
+    } catch (error) {
+      console.error('Failed to load cache stats:', error);
+      this.updateCacheUI({
+        cacheSize: 0,
+        hits: 0,
+        misses: 0,
+        hitRate: '0%',
+        apiCalls: 0
+      });
+    }
+  }
+
+  async refreshCacheStats() {
+    const refreshBtn = document.getElementById('refreshCacheStats');
+    if (!refreshBtn) return;
+
+    const originalText = refreshBtn.textContent;
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = 'Refreshing...';
+
+    try {
+      await this.loadCacheStats();
+      this.showMessage('Cache stats refreshed', 'success');
+    } catch (error) {
+      this.showMessage(`Failed to refresh stats: ${error.message}`, 'error');
+    } finally {
+      refreshBtn.disabled = false;
+      refreshBtn.textContent = originalText;
+    }
+  }
+
+  async clearCache() {
+    const clearBtn = document.getElementById('clearCache');
+    if (!clearBtn) return;
+
+    // Confirm before clearing
+    if (!confirm('Are you sure you want to clear the cache? This will remove all cached explanations and require new API calls for future requests.')) {
+      return;
+    }
+
+    const originalText = clearBtn.textContent;
+    clearBtn.disabled = true;
+    clearBtn.textContent = 'Clearing...';
+
+    try {
+      const response = await chrome.runtime.sendMessage({ type: 'CLEAR_CACHE' });
+      
+      if (response.success) {
+        this.showMessage(`✅ Cache cleared! Removed ${response.clearedEntries} entries.`, 'success');
+        await this.loadCacheStats(); // Refresh stats after clearing
+      } else {
+        this.showMessage(`❌ Failed to clear cache: ${response.error}`, 'error');
+      }
+    } catch (error) {
+      this.showMessage(`❌ Error clearing cache: ${error.message}`, 'error');
+    } finally {
+      clearBtn.disabled = false;
+      clearBtn.textContent = originalText;
+    }
+  }
+
+  updateCacheUI(stats) {
+    const cacheSize = document.getElementById('cacheSize');
+    const hitRate = document.getElementById('hitRate');
+    const apiCallsSaved = document.getElementById('apiCallsSaved');
+
+    if (cacheSize) {
+      cacheSize.textContent = `${stats.cacheSize || 0} / ${stats.maxEntries || 5000}`;
+    }
+
+    if (hitRate) {
+      hitRate.textContent = stats.hitRate || '0%';
+    }
+
+    if (apiCallsSaved) {
+      // API calls saved = cache hits (since each hit is a saved API call)
+      apiCallsSaved.textContent = stats.hits || 0;
+    }
   }
   
   updateUI() {

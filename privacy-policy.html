@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Explanium Extension</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3ecf8e;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .highlight {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3ecf8e;
+            margin: 15px 0;
+        }
+        .contact {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .date {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <h2>Explanium - Instant Text Explainer</h2>
+        <p class="date"><strong>Last Updated:</strong> July 2025</p>
+
+        <div class="highlight">
+            <strong>Quick Summary:</strong> Explanium respects your privacy. We don't collect, store, or share your personal information. Selected text is only sent to Google's Gemini API for explanations, and your API key stays on your device.
+        </div>
+
+        <h2>1. Information We Collect</h2>
+        <h3>1.1 What We DON'T Collect:</h3>
+        <ul>
+            <li>Personal information (name, email, phone, etc.)</li>
+            <li>Browsing history or website data</li>
+            <li>Location data</li>
+            <li>Device information beyond what's necessary for operation</li>
+            <li>Usage analytics or tracking data</li>
+        </ul>
+
+        <h3>1.2 What We DO Process:</h3>
+        <ul>
+            <li><strong>Selected Text:</strong> Only the text you actively select for explanation</li>
+            <li><strong>User Settings:</strong> Your extension preferences (stored locally)</li>
+            <li><strong>API Key:</strong> Your Google Gemini API key (stored locally on your device)</li>
+            <li><strong>Cache Data:</strong> Previously explained text and responses (stored locally)</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <h3>2.1 Selected Text Processing:</h3>
+        <ul>
+            <li>Selected text is sent to Google's Gemini API to generate explanations</li>
+            <li>Text is processed in real-time and not stored on our servers</li>
+            <li>Explanations are cached locally on your device for faster repeat access</li>
+        </ul>
+
+        <h3>2.2 Local Storage:</h3>
+        <ul>
+            <li>Extension settings are stored using Chrome's storage API</li>
+            <li>Cache data is stored locally to improve performance</li>
+            <li>Your API key is stored securely on your device only</li>
+        </ul>
+
+        <h2>3. Data Sharing and Third Parties</h2>
+        <h3>3.1 Google Gemini API:</h3>
+        <ul>
+            <li>Selected text is sent to Google's Gemini API for processing</li>
+            <li>Google's privacy policy applies to this data: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></li>
+            <li>No personal information is included in API requests</li>
+        </ul>
+
+        <h3>3.2 No Other Third Parties:</h3>
+        <ul>
+            <li>We don't share data with advertisers, analytics companies, or other third parties</li>
+            <li>We don't use tracking pixels, cookies, or similar technologies</li>
+            <li>We don't sell or rent your information to anyone</li>
+        </ul>
+
+        <h2>4. Data Security</h2>
+        <ul>
+            <li><strong>Local Storage:</strong> All personal data stays on your device</li>
+            <li><strong>Encrypted Communication:</strong> API calls use HTTPS encryption</li>
+            <li><strong>No Central Database:</strong> We don't maintain servers with user data</li>
+            <li><strong>API Key Security:</strong> Your API key is stored using Chrome's secure storage</li>
+        </ul>
+
+        <h2>5. Your Rights and Controls</h2>
+        <h3>5.1 You Can:</h3>
+        <ul>
+            <li>Disable the extension at any time</li>
+            <li>Clear cached explanations through the settings</li>
+            <li>Remove your API key from the extension</li>
+            <li>Uninstall the extension to remove all local data</li>
+        </ul>
+
+        <h3>5.2 Data Retention:</h3>
+        <ul>
+            <li>Cached explanations are kept for 7 days then automatically deleted</li>
+            <li>Settings persist until you change them or uninstall</li>
+            <li>No data is retained after uninstallation</li>
+        </ul>
+
+        <h2>6. Children's Privacy</h2>
+        <p>Explanium is suitable for all ages. We don't knowingly collect personal information from children under 13. If you're a parent and believe your child has provided personal information, please contact us.</p>
+
+        <h2>7. Changes to Privacy Policy</h2>
+        <p>We may update this privacy policy occasionally. Changes will be posted here with an updated "Last Updated" date. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
+
+        <h2>8. Compliance</h2>
+        <ul>
+            <li><strong>GDPR:</strong> We comply with EU data protection regulations</li>
+            <li><strong>CCPA:</strong> We comply with California privacy laws</li>
+            <li><strong>Chrome Web Store:</strong> We follow Google's privacy requirements</li>
+        </ul>
+
+        <h2>9. Technical Details</h2>
+        <h3>9.1 Permissions Used:</h3>
+        <ul>
+            <li><strong>activeTab:</strong> Access current tab when you select text</li>
+            <li><strong>storage:</strong> Store settings and cache locally</li>
+            <li><strong>contextMenus:</strong> Add right-click menu option</li>
+            <li><strong>host_permissions:</strong> Connect to Google Gemini API only</li>
+        </ul>
+
+        <h3>9.2 Data Flow:</h3>
+        <ol>
+            <li>You select text on a webpage</li>
+            <li>Text is sent to Google Gemini API via HTTPS</li>
+            <li>Explanation is received and displayed</li>
+            <li>Explanation is cached locally for faster repeat access</li>
+            <li>No data is sent to any other servers</li>
+        </ol>
+
+        <div class="contact">
+            <h2>10. Contact Information</h2>
+            <p>If you have questions about this privacy policy or our data practices, please contact us:</p>
+            <ul>
+                <li><strong>GitHub:</strong> <a href="https://github.com/Navaneeth-Git/Explanium">https://github.com/Navaneeth-Git/Explanium</a></li>
+                <li><strong>Email:</strong> navaneethnandakumar12@gmail.com </li>
+                <li><strong>Extension Support:</strong> Use the GitHub Issues page</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <strong>Summary:</strong> Explanium is designed with privacy in mind. We process only the text you select, store data locally on your device, and don't track or collect personal information. Your privacy is protected.
+        </div>
+    </div>
+</body>
+</html> 

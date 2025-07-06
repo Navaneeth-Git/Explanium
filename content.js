@@ -379,7 +379,7 @@ class ExplaniumContentScript {
       
       if (response && response.success) {
         console.log('✅ Showing explanation:', response.explanation);
-        this.showExplanation(response.explanation);
+        this.showExplanation(response.explanation, response.fromCache);
       } else {
         console.error('❌ Failed to get explanation:', response);
         this.showError(response?.error || 'Failed to get explanation');
@@ -437,7 +437,7 @@ class ExplaniumContentScript {
     console.log('✅ Loading popup created and positioned');
   }
   
-  showExplanation(explanation) {
+  showExplanation(explanation, fromCache = false) {
     console.log('💡 Showing explanation popup...');
     console.log('🔍 Popup/selection state before showing:', {
       hasPopup: !!this.popup,
@@ -461,7 +461,7 @@ class ExplaniumContentScript {
       // Last resort: create a simple popup at cursor position if we have explanation
       if (explanation) {
         console.log('🆘 Creating emergency popup at cursor position...');
-        this.createEmergencyPopup(explanation);
+        this.createEmergencyPopup(explanation, fromCache);
       }
       return;
     }
@@ -469,11 +469,15 @@ class ExplaniumContentScript {
     // Store the explanation text for copy functionality
     this.lastExplanation = explanation;
     
+    // Create cache indicator if from cache
+    const cacheIndicator = fromCache ? '<span class="cache-indicator" title="Served from cache - instant!">⚡</span>' : '';
+    
     this.popup.innerHTML = `
       <div class="explanium-header">
         <div class="explanium-title">
           <span class="explanium-icon">●</span>
           <span>Explanation</span>
+          ${cacheIndicator}
           <svg class="ai-icon" viewBox="0 0 24 24" width="14" height="14">
             <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
             <circle cx="12" cy="12" r="1" fill="currentColor"/>
@@ -629,18 +633,23 @@ class ExplaniumContentScript {
     });
   }
   
-  createEmergencyPopup(explanation) {
+  createEmergencyPopup(explanation, fromCache = false) {
     console.log('🚨 Creating emergency popup...');
     
     // Store the explanation text for copy functionality
     this.lastExplanation = explanation;
     
     const popup = this.createPopup();
+    
+    // Create cache indicator if from cache
+    const cacheIndicator = fromCache ? '<span class="cache-indicator" title="Served from cache - instant!">⚡</span>' : '';
+    
     popup.innerHTML = `
       <div class="explanium-header">
         <div class="explanium-title">
           <span class="explanium-icon">●</span>
           <span>Explanation</span>
+          ${cacheIndicator}
         </div>
         <div class="explanium-header-buttons">
           <button class="explanium-copy" title="Copy explanation">

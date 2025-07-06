@@ -47,6 +47,36 @@
   font-size: 14px;
 }
 
+.cache-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 50%;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  cursor: help;
+  animation: cache-flash 0.5s ease-in-out;
+}
+
+@keyframes cache-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .explanium-icon {
   font-size: 14px;
   color: #3ecf8e;

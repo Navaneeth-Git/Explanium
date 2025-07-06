@@ -3,9 +3,254 @@ console.log('[Background] Script start.');
 // Google GenAI configuration
 const GENAI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-1b-it:generateContent';
 
+// Cache configuration
+const CACHE_CONFIG = {
+    maxEntries: 5000,             // Maximum number of cached explanations
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+    cleanupInterval: 24 * 60 * 60 * 1000, // Clean up every 24 hours
+    keyPrefix: 'explanium_cache_'
+};
+
+class ExplanationCache {
+    constructor() {
+        this.stats = {
+            hits: 0,
+            misses: 0,
+            apiCalls: 0,
+            cacheSize: 0
+        };
+        this.initCache();
+    }
+
+    async initCache() {
+        try {
+            await this.loadStats();
+            await this.cleanupExpiredEntries();
+            console.log('[Cache] Cache initialized with', this.stats.cacheSize, 'entries');
+        } catch (error) {
+            console.error('[Cache] Failed to initialize cache:', error);
+        }
+    }
+
+    // Create a consistent hash for text to use as cache key
+    createCacheKey(text) {
+        // Normalize text by removing extra whitespace and converting to lowercase
+        const normalizedText = text.trim().toLowerCase().replace(/\s+/g, ' ');
+        
+        // Simple hash function for the normalized text
+        let hash = 0;
+        for (let i = 0; i < normalizedText.length; i++) {
+            const char = normalizedText.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        
+        // Create a more readable hash by including length and first few characters
+        const shortText = normalizedText.substring(0, 20).replace(/[^a-z0-9]/g, '');
+        return `${CACHE_CONFIG.keyPrefix}${Math.abs(hash)}_${normalizedText.length}_${shortText}`;
+    }
+
+    async getCachedExplanation(text) {
+        try {
+            const cacheKey = this.createCacheKey(text);
+            const result = await chrome.storage.local.get([cacheKey]);
+            
+            if (result[cacheKey]) {
+                const cached = result[cacheKey];
+                
+                // Check if cached entry is still valid
+                if (Date.now() - cached.timestamp < CACHE_CONFIG.maxAge) {
+                    this.stats.hits++;
+                    await this.updateStats();
+                    
+                    console.log('[Cache] HIT for text:', text.substring(0, 50) + '...');
+                    console.log('[Cache] Cache stats - Hits:', this.stats.hits, 'Misses:', this.stats.misses, 'Hit rate:', (this.stats.hits / (this.stats.hits + this.stats.misses) * 100).toFixed(1) + '%');
+                    
+                    return {
+                        success: true,
+                        explanation: cached.explanation,
+                        fromCache: true,
+                        cacheTimestamp: cached.timestamp
+                    };
+                } else {
+                    // Entry expired, remove it
+                    await chrome.storage.local.remove([cacheKey]);
+                    this.stats.cacheSize = Math.max(0, this.stats.cacheSize - 1);
+                    console.log('[Cache] Expired entry removed for text:', text.substring(0, 50) + '...');
+                }
+            }
+            
+            this.stats.misses++;
+            await this.updateStats();
+            
+            console.log('[Cache] MISS for text:', text.substring(0, 50) + '...');
+            return null;
+            
+        } catch (error) {
+            console.error('[Cache] Error getting cached explanation:', error);
+            return null;
+        }
+    }
+
+    async cacheExplanation(text, explanation) {
+        try {
+            const cacheKey = this.createCacheKey(text);
+            const cacheEntry = {
+                text: text,
+                explanation: explanation,
+                timestamp: Date.now(),
+                accessCount: 1
+            };
+            
+            // Check if we need to make room in cache
+            if (this.stats.cacheSize >= CACHE_CONFIG.maxEntries) {
+                await this.cleanupOldEntries();
+            }
+            
+            await chrome.storage.local.set({ [cacheKey]: cacheEntry });
+            this.stats.cacheSize++;
+            await this.updateStats();
+            
+            console.log('[Cache] Cached explanation for text:', text.substring(0, 50) + '...');
+            console.log('[Cache] Cache size:', this.stats.cacheSize, '/', CACHE_CONFIG.maxEntries);
+            
+        } catch (error) {
+            console.error('[Cache] Error caching explanation:', error);
+        }
+    }
+
+    async cleanupExpiredEntries() {
+        try {
+            const allData = await chrome.storage.local.get();
+            const currentTime = Date.now();
+            const keysToRemove = [];
+            
+            for (const key in allData) {
+                if (key.startsWith(CACHE_CONFIG.keyPrefix)) {
+                    const entry = allData[key];
+                    if (entry.timestamp && currentTime - entry.timestamp > CACHE_CONFIG.maxAge) {
+                        keysToRemove.push(key);
+                    }
+                }
+            }
+            
+            if (keysToRemove.length > 0) {
+                await chrome.storage.local.remove(keysToRemove);
+                this.stats.cacheSize = Math.max(0, this.stats.cacheSize - keysToRemove.length);
+                console.log('[Cache] Cleaned up', keysToRemove.length, 'expired entries');
+            }
+            
+        } catch (error) {
+            console.error('[Cache] Error cleaning up expired entries:', error);
+        }
+    }
+
+    async cleanupOldEntries() {
+        try {
+            const allData = await chrome.storage.local.get();
+            const cacheEntries = [];
+            
+            // Collect all cache entries with their keys
+            for (const key in allData) {
+                if (key.startsWith(CACHE_CONFIG.keyPrefix)) {
+                    cacheEntries.push({
+                        key: key,
+                        timestamp: allData[key].timestamp || 0,
+                        accessCount: allData[key].accessCount || 0
+                    });
+                }
+            }
+            
+            // Sort by timestamp (oldest first) and remove 10% of entries
+            cacheEntries.sort((a, b) => a.timestamp - b.timestamp);
+            const entriesToRemove = Math.ceil(cacheEntries.length * 0.1);
+            const keysToRemove = cacheEntries.slice(0, entriesToRemove).map(entry => entry.key);
+            
+            if (keysToRemove.length > 0) {
+                await chrome.storage.local.remove(keysToRemove);
+                this.stats.cacheSize = Math.max(0, this.stats.cacheSize - keysToRemove.length);
+                console.log('[Cache] Cleaned up', keysToRemove.length, 'old entries to make room');
+            }
+            
+        } catch (error) {
+            console.error('[Cache] Error cleaning up old entries:', error);
+        }
+    }
+
+    async loadStats() {
+        try {
+            const result = await chrome.storage.local.get(['explanium_cache_stats']);
+            if (result.explanium_cache_stats) {
+                this.stats = { ...this.stats, ...result.explanium_cache_stats };
+            }
+            
+            // Count actual cache entries to ensure accurate cache size
+            const allData = await chrome.storage.local.get();
+            let actualCacheSize = 0;
+            for (const key in allData) {
+                if (key.startsWith(CACHE_CONFIG.keyPrefix)) {
+                    actualCacheSize++;
+                }
+            }
+            this.stats.cacheSize = actualCacheSize;
+            
+        } catch (error) {
+            console.error('[Cache] Error loading stats:', error);
+        }
+    }
+
+    async updateStats() {
+        try {
+            await chrome.storage.local.set({ explanium_cache_stats: this.stats });
+        } catch (error) {
+            console.error('[Cache] Error updating stats:', error);
+        }
+    }
+
+    async clearCache() {
+        try {
+            const allData = await chrome.storage.local.get();
+            const keysToRemove = [];
+            
+            for (const key in allData) {
+                if (key.startsWith(CACHE_CONFIG.keyPrefix)) {
+                    keysToRemove.push(key);
+                }
+            }
+            
+            if (keysToRemove.length > 0) {
+                await chrome.storage.local.remove(keysToRemove);
+                this.stats.cacheSize = 0;
+                await this.updateStats();
+                console.log('[Cache] Cleared', keysToRemove.length, 'cache entries');
+            }
+            
+            return { success: true, clearedEntries: keysToRemove.length };
+            
+        } catch (error) {
+            console.error('[Cache] Error clearing cache:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    getCacheStats() {
+        const hitRate = this.stats.hits + this.stats.misses > 0 
+            ? (this.stats.hits / (this.stats.hits + this.stats.misses) * 100).toFixed(1)
+            : 0;
+        
+        return {
+            ...this.stats,
+            hitRate: hitRate + '%',
+            maxEntries: CACHE_CONFIG.maxEntries,
+            maxAge: CACHE_CONFIG.maxAge
+        };
+    }
+}
+
 class GemmaExplainer {
     constructor() {
         this.apiKey = null;
+        this.cache = new ExplanationCache();
         this.loadApiKey();
     }
 
@@ -45,6 +290,16 @@ class GemmaExplainer {
                 error: 'No text provided for explanation.' 
             };
         }
+
+        // Check cache first
+        const cachedResult = await this.cache.getCachedExplanation(text);
+        if (cachedResult) {
+            return cachedResult;
+        }
+
+        // Proceed with API call if not in cache
+        this.cache.stats.apiCalls++;
+        await this.cache.updateStats();
 
         // Request body following the conversation structure from Python code
         const requestBody = {
@@ -205,9 +460,13 @@ class GemmaExplainer {
                     explanation = "I couldn't generate a clear explanation for this text. Please try selecting a different piece of text.";
                 }
                 
+                // Cache the successful explanation
+                await this.cache.cacheExplanation(text, explanation);
+                
                 return { 
                     success: true, 
-                    explanation: explanation 
+                    explanation: explanation,
+                    fromCache: false
                 };
             } else {
                 console.error('[Background] Unexpected API response format:', data);
@@ -230,8 +489,13 @@ class GemmaExplainer {
         return {
             hasApiKey: !!this.apiKey,
             ready: !!this.apiKey,
-            model: 'Gemma-3-1b-it'
+            model: 'Gemma-3-1b-it',
+            cache: this.cache.getCacheStats()
         };
+    }
+
+    async clearCache() {
+        return await this.cache.clearCache();
     }
 }
 
@@ -314,11 +578,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 .then(response => {
                     if (response) {
                         console.log('[Background] Explanation result:', response.success ? 'Success' : response.error);
+                        if (response.fromCache) {
+                            console.log('[Background] ⚡ Response served from cache - instant!');
+                        }
                         sendResponse(response);
                     }
                 })
                 .catch(error => {
                     console.error('[Background] Error explaining text:', error);
+                    sendResponse({ success: false, error: error.message });
+                });
+            return true; // Async response
+
+        case 'GET_CACHE_STATS':
+            sendResponse(gemmaExplainer.cache.getCacheStats());
+            return false;
+
+        case 'CLEAR_CACHE':
+            gemmaExplainer.clearCache()
+                .then(response => {
+                    console.log('[Background] Cache clear result:', response);
+                    sendResponse(response);
+                })
+                .catch(error => {
+                    console.error('[Background] Error clearing cache:', error);
                     sendResponse({ success: false, error: error.message });
                 });
             return true; // Async response

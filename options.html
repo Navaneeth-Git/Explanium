@@ -410,13 +410,77 @@
     .content::-webkit-scrollbar-thumb:hover {
       background: #3ecf8e;
     }
+
+    /* Cache management styles */
+    .cache-info {
+      background: #1c1c1c;
+      border: 1px solid #404040;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .cache-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .cache-stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #404040;
+    }
+
+    .cache-stat:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      font-size: 12px;
+      color: #3ecf8e;
+      font-weight: 600;
+    }
+
+    .cache-description {
+      margin-bottom: 12px;
+    }
+
+    .cache-desc-text {
+      font-size: 10px;
+      color: #9ca3af;
+      line-height: 1.4;
+      padding: 8px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      border: 1px solid #404040;
+    }
+
+    .danger-button {
+      background: #dc2626 !important;
+      color: #ffffff !important;
+      border-color: #dc2626 !important;
+    }
+
+    .danger-button:hover {
+      background: #b91c1c !important;
+      border-color: #b91c1c !important;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>
-        <div class="extension-logo"></div>
         Explanium Settings
       </h1>
     </div>
@@ -469,6 +533,38 @@
               <li>Copy the generated key</li>
               <li>Paste it in the field and test the connection</li>
             </ol>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">⚡ Cache Management</div>
+          
+          <div class="cache-info">
+            <div class="cache-stats">
+              <div class="cache-stat">
+                <span class="stat-label">Cache Size:</span>
+                <span id="cacheSize" class="stat-value">-</span>
+              </div>
+              <div class="cache-stat">
+                <span class="stat-label">Hit Rate:</span>
+                <span id="hitRate" class="stat-value">-</span>
+              </div>
+              <div class="cache-stat">
+                <span class="stat-label">API Calls Saved:</span>
+                <span id="apiCallsSaved" class="stat-value">-</span>
+              </div>
+            </div>
+            
+            <div class="cache-description">
+              <div class="cache-desc-text">
+                ⚡ Explanations are cached locally to provide instant responses for repeated text selections and reduce API usage.
+              </div>
+            </div>
+            
+            <div class="button-row">
+              <button id="refreshCacheStats">Refresh Stats</button>
+              <button id="clearCache" class="danger-button">Clear Cache</button>
+            </div>
           </div>
         </div>
       </div>
