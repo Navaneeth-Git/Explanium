@@ -6,6 +6,14 @@ A powerful Chrome extension that provides instant explanations for any selected 
 [![GitHub](https://img.shields.io/badge/GitHub-Open%20Source-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Navaneeth-Git/Explanium)
 [![Privacy Policy](https://img.shields.io/badge/Privacy-Protected-green?style=for-the-badge&logo=shield&logoColor=white)](https://navaneeth-git.github.io/Explanium/privacy-policy.html)
 
+## ScreenShots
+
+https://github.com/user-attachments/assets/dcb66876-411f-434b-a77f-d52961bc1d6e
+![1](https://github.com/user-attachments/assets/53d2295b-1442-4021-844c-0b07ec1fa88a)
+![2](https://github.com/user-attachments/assets/dcbe6729-d4bc-4f3b-b6bb-dace9c60f3b2)
+![3](https://github.com/user-attachments/assets/7f9f36a1-6068-49b6-9b86-8973e7cf6cb9)
+![4](https://github.com/user-attachments/assets/5917699f-a2c5-4bd2-b93b-eb6894efc94b)
+
 ## ✨ Key Features
 
 - 🤖 **Google Gemini AI**: Powered by Google's Gemma-3-1b-it model for fast, accurate explanations
@@ -229,9 +237,6 @@ Explanium is an open source project developed by **Navaneeth**. If you find it h
 
 Made with ❤️ by [Navaneeth](https://github.com/Navaneeth-Git)
 
-## ScreenShots
 
-![Screenshot 2025-07-05 235010](https://github.com/user-attachments/assets/76687efb-94a2-4b11-8ab7-2afc77184225)
-![Screenshot 2025-07-05 235037](https://github.com/user-attachments/assets/b484e23e-5b48-4c6c-a527-eedebf50b4ee)
-![Screenshot 2025-07-05 235137](https://github.com/user-attachments/assets/6a568394-db81-4fbd-818d-a87e43fc8fd9)
-![Screenshot 2025-07-05 235212](https://github.com/user-attachments/assets/a396ac95-2563-40b5-a724-3b9c22d8b62d)
+
+
