@@ -9,6 +9,7 @@ A powerful Chrome extension that provides instant explanations for any selected 
 ## ScreenShots
 
 https://github.com/user-attachments/assets/dcb66876-411f-434b-a77f-d52961bc1d6e
+
 ![1](https://github.com/user-attachments/assets/53d2295b-1442-4021-844c-0b07ec1fa88a)
 ![2](https://github.com/user-attachments/assets/dcbe6729-d4bc-4f3b-b6bb-dace9c60f3b2)
 ![3](https://github.com/user-attachments/assets/7f9f36a1-6068-49b6-9b86-8973e7cf6cb9)
