@@ -2,7 +2,7 @@
 
 A powerful Chrome extension that provides instant explanations for any selected text using Google's Gemini AI. Get fast, accurate explanations with a beautiful dark interface, advanced caching system, and privacy-first design.
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Coming%20Soon-4285f4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Available%20Now-4285f4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/ocnbjjlimncdnppedfgemkhonfcjmdcc)
 [![GitHub](https://img.shields.io/badge/GitHub-Open%20Source-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Navaneeth-Git/Explanium)
 [![Privacy Policy](https://img.shields.io/badge/Privacy-Protected-green?style=for-the-badge&logo=shield&logoColor=white)](https://navaneeth-git.github.io/Explanium/privacy-policy.html)
 
@@ -48,7 +48,20 @@ https://github.com/user-attachments/assets/dcb66876-411f-434b-a77f-d52961bc1d6e
 
 ## 🚀 Quick Start
 
-### Installation (Development)
+### 🌟 Chrome Web Store Installation (Recommended)
+
+1. **[Install from Chrome Web Store](https://chromewebstore.google.com/detail/ocnbjjlimncdnppedfgemkhonfcjmdcc)** - One-click installation
+2. **Get your API key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
+3. **Configure the extension** by clicking the extension icon and entering your API key
+4. **Start explaining!** Select any text on any webpage
+
+**Benefits:**
+- ✅ One-click installation
+- ✅ Automatic updates
+- ✅ Enhanced security
+- ✅ Verified by Google
+
+### 💻 Developer Installation (For Development)
 
 1. **Download** the extension files from this repository
 2. **Open Chrome** and go to `chrome://extensions/`
@@ -56,14 +69,6 @@ https://github.com/user-attachments/assets/dcb66876-411f-434b-a77f-d52961bc1d6e
 4. **Click "Load unpacked"** and select the Explanium folder
 5. **Get your API key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
 6. **Configure the extension** by clicking the extension icon and entering your API key
-
-### Chrome Web Store Installation (Coming Soon)
-
-The extension will be available on the Chrome Web Store soon! Features:
-- One-click installation
-- Automatic updates
-- Enhanced security
-- Verified distribution
 
 ## 🔧 Configuration
 
@@ -234,9 +239,11 @@ Explanium is an open source project developed by **Navaneeth**. If you find it h
 
 ---
 
-**Ready for Chrome Web Store submission** 🚀 | **Privacy-first design** 🔒 | **Open source** 💻
+**🌟 Available on Chrome Web Store** 🚀 | **Privacy-first design** 🔒 | **Open source** 💻
 
 Made with ❤️ by [Navaneeth](https://github.com/Navaneeth-Git)
+
+**[⬇️ Install from Chrome Web Store](https://chromewebstore.google.com/detail/ocnbjjlimncdnppedfgemkhonfcjmdcc)**
 
 
 

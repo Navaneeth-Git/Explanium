@@ -2,6 +2,8 @@
 
 Complete troubleshooting guide for common issues and solutions.
 
+**📦 Installation:** **[Install from Chrome Web Store](https://chromewebstore.google.com/detail/ocnbjjlimncdnppedfgemkhonfcjmdcc)** - Official verified version
+
 ## 🚨 Quick Fixes (Try These First)
 
 ### 1. Extension Not Working At All

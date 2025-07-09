@@ -4,13 +4,20 @@ Complete guide for using Explanium - AI-powered text explanations with advanced 
 
 ## 📦 Installation Options
 
-### 🌐 Chrome Web Store (Recommended - Coming Soon)
-1. **Visit Chrome Web Store** (link will be available soon)
+### 🌐 Chrome Web Store (Recommended) 🌟
+1. **[Visit Chrome Web Store](https://chromewebstore.google.com/detail/ocnbjjlimncdnppedfgemkhonfcjmdcc)**
 2. **Click "Add to Chrome"**
 3. **Confirm installation**
-4. **Setup API key** (see configuration below)
+4. **Pin the extension** to your toolbar for easy access
+5. **Setup API key** (see configuration below)
 
-### 💻 Developer Installation (Current)
+**Benefits:**
+- ✅ One-click installation
+- ✅ Automatic updates
+- ✅ Enhanced security
+- ✅ Verified by Google
+
+### 💻 Developer Installation (For Development)
 1. **Download/Clone** the Explanium repository
 2. **Open Chrome** and go to `chrome://extensions/`
 3. **Enable "Developer mode"** (toggle in top right)
